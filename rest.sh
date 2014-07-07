@@ -30,7 +30,9 @@ if [ "$1" == "install" ]; then
   # install helpers
   drush @$DRUSH_ALIAS --yes pm-enable restui devel_generate
 
-  drush @$DRUSH_ALIAS --yes generate-content 1 2
+  # Generate a node
+  drush @$DRUSH_ALIAS generate-content --types=article 1 2
+
   echo "  ERROR? : checkout https://www.drupal.org/node/2293781"
 
   cp ./rest-dist.yml ./rest.yml
@@ -83,14 +85,15 @@ if [ "$1" == "config" ]; then
   echo
   echo - alias   : @$DRUSH_ALIAS
   echo - accept  : $ACCEPT_HEADER
-  echo - node    : $RESOURCE_NODE
-  echo - comment : $RESOURCE_COMMENT
-  echo - user    : $RESOURCE_USER
+  echo - node    : $RESOURCE_node
+  echo - comment : $RESOURCE_comment
+  echo - user    : $RESOURCE_user
   echo
   echo rest.settings:
   echo
   drush @$DRUSH_ALIAS config-get rest.settings
   echo
+  echo "Database 'rest.entity.' config:"
   drush @$DRUSH_ALIAS sql-query "SELECT name, path FROM router WHERE name LIKE 'rest.entity.%';"
 
   echo "# Verify config manually"
