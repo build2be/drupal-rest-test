@@ -1,5 +1,9 @@
 # Drupal 8 drush alias
-DRUSH_ALIAS=drupal.d8
+# DRUSH_ALIAS="drupal.d8 --verbose"
+DRUSH_ALIAS="drupal.d8"
+
+# Enable command echo
+# set -x
 
 # Rest server
 URL=http://drupal.d8
@@ -16,6 +20,7 @@ CURL_USER="admin:admin"
 RESOURCE_node=node/1
 RESOURCE_user=user/1
 RESOURCE_comment=comment/1
+# RESOURCE_taxonomy=taxonomy/term/1
 
 # Only show help when no arguments found
 ARGS=$#
@@ -107,6 +112,7 @@ if [ "$1" == "web" ]; then
   shift
 fi
 
+# When adding new entity make sure to add it's RESOURCE_ above
 for entity in "node" "comment" "user"; do
   if [ "$1" == "$entity" ]; then
     echo "========================"
