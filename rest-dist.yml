@@ -1,0 +1,19 @@
+resources:
+  'entity:node':
+    GET:
+      supported_formats:
+        - json
+      supported_auth:
+        - basic_auth
+  'entity:comment':
+    GET:
+      supported_formats:
+        - json
+      supported_auth:
+        - basic_auth
+  'entity:user':
+    GET:
+      supported_formats:
+        - json
+      supported_auth:
+        - basic_auth
