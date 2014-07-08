@@ -53,6 +53,7 @@ if [ "$1" == "rest-set" ]; then
   drush @$DRUSH_ALIAS --yes pm-uninstall hal
 
   cat ./rest.yml | drush @$DRUSH_ALIAS config-set --yes --format=yaml rest.settings resources.entity -
+  drush @$DRUSH_ALIAS cache-rebuild
 
   drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:node"
   drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:comment"
@@ -72,6 +73,7 @@ if [ "$1" == "hal-set" ]; then
   drush @$DRUSH_ALIAS --yes pm-enable hal
 
   cat ./hal.yml | drush @$DRUSH_ALIAS config-set --yes --format=yaml rest.settings resources.entity -
+  drush @$DRUSH_ALIAS cache-rebuild
 
   drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:node"
   drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:user"
