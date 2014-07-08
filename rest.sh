@@ -47,8 +47,6 @@ if [ "$1" == "install" ]; then
 fi
 
 if [ "$1" == "rest-set" ]; then
-  ACCEPT_HEADER=$JSON_HEADER
-
   drush @$DRUSH_ALIAS --yes pm-enable rest
   drush @$DRUSH_ALIAS --yes pm-uninstall hal
 
@@ -68,8 +66,6 @@ if [ "$1" == "rest" ]; then
 fi
 
 if [ "$1" == "hal-set" ]; then
-  ACCEPT_HEADER=$HAL_HEADER
-
   drush @$DRUSH_ALIAS --yes pm-enable hal
 
   cat ./hal.yml | drush @$DRUSH_ALIAS config-set --yes --format=yaml rest.settings resources.entity -
