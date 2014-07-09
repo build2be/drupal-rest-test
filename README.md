@@ -17,9 +17,11 @@ Test some rest functionalities against Drupal 8 REST and HAL server
 
 ## Install Drupal
 
-The script installs Rest UI and Devel modules
+The script installs Rest UI and Devel modules:
 
-Install Drupal on given alias and URL. Configures Drupal according to the 'default' intended settings. Next shows the config from Rest UI.
+- Install Drupal on given alias and URL.
+- Configures Drupal according to the 'default' intended settings.
+- Next shows the config from Rest UI.
 
 ```bash
 ./rest.sh install config
