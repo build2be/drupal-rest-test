@@ -12,8 +12,8 @@ Test some rest functionalities against Drupal 8 REST and HAL server
 ## Install
 
 - Checkout this REPO
-- Edit the drush alias
-- Edit the URL
+- Copy the rest.config.dist to rest.config
+- Edit rest.config and set DRUSH_ALIAS and URL to your system config.
 
 ## Install Drupal
 
