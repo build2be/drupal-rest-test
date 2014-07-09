@@ -2,6 +2,14 @@
 
 Test some rest functionalities against Drupal 8 REST and HAL server
 
+## Requirements
+
+1. You should have a running [Drupal 8](https://www.drupal.org/node/3060/git-instructions/8.x) install
+1. You must have installed [Drush](https://github.com/drush-ops/drush)
+1. You need to know how to write [Drush aliases](http://drush.ws/examples/example.aliases.drushrc.php)
+
+## Install
+
 - Checkout this REPO
 - Edit the drush alias
 - Edit the URL
