@@ -25,7 +25,7 @@ ARGS=$#
 if [ "$1" == "install-modules" ]; then
   # install helpers
   drush @$DRUSH_ALIAS --yes dl devel --package-handler=git_drupalorg
-  drush @$DRUSH_ALIAS --yes dl restui --package-handler=git_drupalorg
+  drush @$DRUSH_ALIAS --yes dl restui-1.x --package-handler=git_drupalorg
   shift
 fi
 
