@@ -44,7 +44,7 @@ if [ "$1" == "install" ]; then
   drush @$DRUSH_ALIAS generate-content --types=article 1 2
 
   cp ./rest-dist.yml ./rest.yml
-  cp ./hal-dist.yml ./hal.yml
+  cp ./hal.yml.dist ./hal.yml
 
   shift
 fi
@@ -126,8 +126,9 @@ for entity in "node" "comment" "user"; do
     echo "========================"
     NAME="RESOURCE_$1"
     RESOURCE=${!NAME}
-    echo "curl --user $CURL_USER --header "$ACCEPT_HEADER" --request GET $URL/$RESOURCE"
-    curl --user $CURL_USER --header "$ACCEPT_HEADER" --request GET $URL/$RESOURCE
+    echo "curl --user $CURL_USER --header "\"$ACCEPT_HEADER\"" --request GET $URL/$RESOURCE"
+    curl --user $CURL_USER --header "$ACCEPT_HEADER" --request GET $URL/$RESOURCE > $1.json
+    cat $1.json
     echo
     shift
   fi
