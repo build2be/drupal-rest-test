@@ -40,10 +40,10 @@ if [ "$1" == "install" ]; then
   # enable helpers
   drush @$DRUSH_ALIAS --yes pm-enable restui devel_generate
 
-  # Generate a node
-  drush @$DRUSH_ALIAS generate-content --types=article 1 2
+  # Generate a node + comment
+  drush @$DRUSH_ALIAS generate-content --types=article 1 1
 
-  cp ./rest-dist.yml ./rest.yml
+  cp ./rest.yml.dist ./rest.yml
   cp ./hal.yml.dist ./hal.yml
 
   shift
