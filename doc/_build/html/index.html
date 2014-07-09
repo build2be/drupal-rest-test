@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to Drupal REST test’s documentation! &mdash; Drupal REST test 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Drupal REST test 0.1 documentation" href="#" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="#">Drupal REST test 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="welcome-to-drupal-rest-test-s-documentation">
+<h1>Welcome to Drupal REST test&#8217;s documentation!<a class="headerlink" href="#welcome-to-drupal-rest-test-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+</div>
+<div class="section" id="requirements">
+<h1>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic">
+<li><p class="first">You should have a running <a class="reference external" href="https://www.drupal.org/node/3060/git-instructions/8.x">Drupal 8</a> install</p>
+</li>
+<li><p class="first">You must have installed <a class="reference external" href="https://github.com/drush-ops/drush">Drush</a></p>
+</li>
+<li><p class="first">You need to know how to write <a class="reference external" href="http://drush.ws/examples/example.aliases.drushrc.php">Drush aliases</a></p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">$</span> <span class="pre">vi</span> <span class="pre">~/.drush/drupal.aliases.drushrc.php</span></tt></li>
+</ol>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="install">
+<h1>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>Checkout this REPO</li>
+<li>Copy the rest.config.dist to rest.config</li>
+<li>Edit rest.config and set DRUSH_ALIAS and URL to your system config.</li>
+</ul>
+</div>
+<div class="section" id="install-drupal">
+<h1>Install Drupal<a class="headerlink" href="#install-drupal" title="Permalink to this headline">¶</a></h1>
+<p>The script installs Rest UI and Devel modules:</p>
+<ul>
+<li><p class="first">Install Drupal on given alias and URL.</p>
+</li>
+<li><p class="first">Configures Drupal according to the &#8216;default&#8217; intended settings.</p>
+</li>
+<li><p class="first">Next shows the config from Rest UI:</p>
+<div class="highlight-bash"><div class="highlight"><pre>./rest.sh install-modules install config
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="switch-to-rest-server-mode">
+<h1>Switch to REST server mode<a class="headerlink" href="#switch-to-rest-server-mode" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-bash"><div class="highlight"><pre>./rest.sh rest-set rest config
+</pre></div>
+</div>
+<div class="section" id="run-available-tests">
+<h2>Run available tests<a class="headerlink" href="#run-available-tests" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre>./rest.sh rest config node comment user
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="switch-to-hal-server-mode">
+<h1>Switch to HAL server mode<a class="headerlink" href="#switch-to-hal-server-mode" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-bash"><div class="highlight"><pre>./rest.sh hal-set hal config
+</pre></div>
+</div>
+<div class="section" id="id1">
+<h2>Run available tests<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre>./rest.sh hal config node comment user
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to Drupal REST test&#8217;s documentation!</a></li>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#install">Install</a></li>
+<li><a class="reference internal" href="#install-drupal">Install Drupal</a></li>
+<li><a class="reference internal" href="#switch-to-rest-server-mode">Switch to REST server mode</a><ul>
+<li><a class="reference internal" href="#run-available-tests">Run available tests</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#switch-to-hal-server-mode">Switch to HAL server mode</a><ul>
+<li><a class="reference internal" href="#id1">Run available tests</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="#">Drupal REST test 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Clemens Tolboom, Martijn Braam.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

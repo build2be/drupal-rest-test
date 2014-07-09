@@ -1,0 +1,8 @@
+\select@language {english}
+\contentsline {chapter}{\numberline {1}Requirements}{3}{chapter.1}
+\contentsline {chapter}{\numberline {2}Install}{5}{chapter.2}
+\contentsline {chapter}{\numberline {3}Install Drupal}{7}{chapter.3}
+\contentsline {chapter}{\numberline {4}Switch to REST server mode}{9}{chapter.4}
+\contentsline {section}{\numberline {4.1}Run available tests}{9}{section.4.1}
+\contentsline {chapter}{\numberline {5}Switch to HAL server mode}{11}{chapter.5}
+\contentsline {section}{\numberline {5.1}Run available tests}{11}{section.5.1}
