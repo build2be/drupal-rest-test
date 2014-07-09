@@ -9,8 +9,7 @@ Requirements
 #. You should have a running `Drupal 8 <https://www.drupal.org/node/3060/git-instructions/8.x>`_ install
 #. You must have installed `Drush <https://github.com/drush-ops/drush>`_
 #. You need to know how to write `Drush aliases <http://drush.ws/examples/example.aliases.drushrc.php>`_
-
-    #. ``$ vi ~/.drush/drupal.aliases.drushrc.php``
+     ``$ vi ~/.drush/drupal.aliases.drushrc.php``
 
 Install
 =======
