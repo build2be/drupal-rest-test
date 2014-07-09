@@ -1,12 +1,7 @@
-# Drupal 8 drush alias
-# DRUSH_ALIAS="drupal.d8 --verbose"
-DRUSH_ALIAS="drupal.d8"
+source ./rest.config
 
 # Enable command echo
 # set -x
-
-# Rest server
-URL=http://drupal.d8
 
 HAL_HEADER="Accept: application/hal+json"
 JSON_HEADER="Accept: application/json"

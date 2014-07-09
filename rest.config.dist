@@ -1,0 +1,7 @@
+# Drupal 8 drush alias
+DRUSH_ALIAS="drupal.d8"
+# Change this if you want verbose info into
+# DRUSH_ALIAS="drupal.d8 --verbose"
+
+# Rest server
+URL=http://drupal.d8
