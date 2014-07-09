@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 source ./rest.config
 
 # Enable command echo
