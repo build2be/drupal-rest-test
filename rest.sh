@@ -17,9 +17,9 @@ CURL_USER="admin:admin"
 RESOURCE_node=node/1
 RESOURCE_user=user/1
 RESOURCE_comment=comment/1
+RESOURCE_taxonomy_vocabulary=entity/taxonomy_vocabulary/tags
 # TODO: add resources for
 # taxonomy=taxonomy/term/1
-# taxonomy_vocabulary=?
 
 # Only show help when no arguments found
 ARGS=$#
@@ -89,14 +89,18 @@ if [ "$SET_PERMS" == "1" ]; then
   echo "--------------------------------------"
   echo "Setting permissions"
 
-  drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:node"
-  drush @$DRUSH_ALIAS role-add-perm anonymous "restful post entity:node"
+  for role in "anonymous" "administrator"; do
 
-  drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:comment"
-  drush @$DRUSH_ALIAS role-add-perm anonymous "restful post entity:comment"
+    drush @$DRUSH_ALIAS role-add-perm $role "restful get entity:node"
+    drush @$DRUSH_ALIAS role-add-perm $role "restful post entity:node"
 
-  drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:user"
+    drush @$DRUSH_ALIAS role-add-perm $role "restful get entity:comment"
+    drush @$DRUSH_ALIAS role-add-perm $role "restful post entity:comment"
 
+    drush @$DRUSH_ALIAS role-add-perm $role "restful get entity:user"
+
+    drush @$DRUSH_ALIAS role-add-perm $role "restful get entity:taxonomy_vocabulary"
+  done
 fi
 
 if [ "$1" == "config" ]; then
@@ -132,7 +136,7 @@ if [ "$1" == "web" ]; then
 fi
 
 # When adding new entity make sure to add it's RESOURCE_ above
-for entity in "node" "comment" "user"; do
+for entity in "node" "comment" "user" "taxonomy_vocabulary"; do
   if [ "$1" == "$entity" ]; then
     echo "========================"
     NAME="RESOURCE_$1"
