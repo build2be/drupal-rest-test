@@ -24,7 +24,7 @@ The script installs Rest UI and Devel modules:
 - Next shows the config from Rest UI.
 
 ```bash
-./rest.sh install config
+./rest.sh install-modules install config
 ```
 
 ## Switch to REST server mode

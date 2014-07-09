@@ -22,6 +22,13 @@ RESOURCE_comment=comment/1
 # Only show help when no arguments found
 ARGS=$#
 
+if [ "$1" == "install-modules" ]; then
+  # install helpers
+  drush @$DRUSH_ALIAS --yes dl devel
+  drush @$DRUSH_ALIAS --yes dl restui
+  shift
+fi
+
 if [ "$1" == "install" ]; then
   drush @$DRUSH_ALIAS --yes site-install
   drush @$DRUSH_ALIAS user-password admin --password=admin
@@ -29,13 +36,11 @@ if [ "$1" == "install" ]; then
   # defaults according to /core/modules/rest/config/install
   drush @$DRUSH_ALIAS --yes pm-enable rest hal basic_auth
 
-  # install helpers
+  # enable helpers
   drush @$DRUSH_ALIAS --yes pm-enable restui devel_generate
 
   # Generate a node
   drush @$DRUSH_ALIAS generate-content --types=article 1 2
-
-  echo "  ERROR? : checkout https://www.drupal.org/node/2293781"
 
   cp ./rest-dist.yml ./rest.yml
   cp ./hal-dist.yml ./hal.yml
