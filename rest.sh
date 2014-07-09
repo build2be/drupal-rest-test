@@ -17,7 +17,9 @@ CURL_USER="admin:admin"
 RESOURCE_node=node/1
 RESOURCE_user=user/1
 RESOURCE_comment=comment/1
-# RESOURCE_taxonomy=taxonomy/term/1
+# TODO: add resources for
+# taxonomy=taxonomy/term/1
+# taxonomy_vocabulary=?
 
 # Only show help when no arguments found
 ARGS=$#
@@ -84,32 +86,40 @@ if [ "$1" == "hal" ]; then
 fi
 
 if [ "$SET_PERMS" == "1" ]; then
+  echo "--------------------------------------"
+  echo "Setting permissions"
 
   drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:node"
   drush @$DRUSH_ALIAS role-add-perm anonymous "restful post entity:node"
 
   drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:comment"
+  drush @$DRUSH_ALIAS role-add-perm anonymous "restful post entity:comment"
 
   drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:user"
 
 fi
 
 if [ "$1" == "config" ]; then
-  echo Settings:
+  echo "--------------------------------------"
+  echo "Settings:"
   echo
-  echo - alias   : @$DRUSH_ALIAS
-  echo - accept  : $ACCEPT_HEADER
-  echo - node    : $RESOURCE_node
-  echo - comment : $RESOURCE_comment
-  echo - user    : $RESOURCE_user
+  echo "- alias   : @$DRUSH_ALIAS"
+  echo "- accept  : $ACCEPT_HEADER"
+  echo "- node    : $RESOURCE_node"
+  echo "- comment : $RESOURCE_comment"
+  echo "- user    : $RESOURCE_user"
   echo
-  echo rest.settings:
+  echo "--------------------------------------"
+  echo "rest.settings:"
   echo
   drush @$DRUSH_ALIAS config-get rest.settings
-  echo
+
+  echo "--------------------------------------"
   echo "Database 'rest.entity.' config:"
+  echo
   drush @$DRUSH_ALIAS sql-query "SELECT name, path FROM router WHERE name LIKE 'rest.entity.%';"
 
+  echo "--------------------------------------"
   echo "# Verify config manually"
   drush @$DRUSH_ALIAS user-login admin admin/config/services/rest
 
