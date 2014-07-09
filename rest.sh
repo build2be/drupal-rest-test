@@ -25,6 +25,7 @@ ARGS=$#
 if [ "$1" == "install-modules" ]; then
   # install helpers
   drush @$DRUSH_ALIAS --yes dl devel --package-handler=git_drupalorg
+  # Make sure not to grab a version like 1.8
   drush @$DRUSH_ALIAS --yes dl restui-1.x --package-handler=git_drupalorg
   shift
 fi
@@ -55,9 +56,7 @@ if [ "$1" == "rest-set" ]; then
   cat ./rest.yml | drush @$DRUSH_ALIAS config-set --yes --format=yaml rest.settings resources.entity -
   drush @$DRUSH_ALIAS cache-rebuild
 
-  drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:node"
-  drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:comment"
-  drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:user"
+  SET_PERMS=1
 
   shift
 fi
@@ -73,9 +72,7 @@ if [ "$1" == "hal-set" ]; then
   cat ./hal.yml | drush @$DRUSH_ALIAS config-set --yes --format=yaml rest.settings resources.entity -
   drush @$DRUSH_ALIAS cache-rebuild
 
-  drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:node"
-  drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:user"
-  drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:comment"
+  SET_PERMS=1
 
   shift
 fi
@@ -83,6 +80,17 @@ fi
 if [ "$1" == "hal" ]; then
   ACCEPT_HEADER=$HAL_HEADER
   shift
+fi
+
+if [ "$SET_PERMS" == "1" ]; then
+
+  drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:node"
+  drush @$DRUSH_ALIAS role-add-perm anonymous "restful post entity:node"
+
+  drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:comment"
+
+  drush @$DRUSH_ALIAS role-add-perm anonymous "restful get entity:user"
+
 fi
 
 if [ "$1" == "config" ]; then
