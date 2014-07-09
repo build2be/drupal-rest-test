@@ -45,6 +45,7 @@ if [ "$1" == "install" ]; then
 
   cp ./rest.yml.dist ./rest.yml
   cp ./hal.yml.dist ./hal.yml
+  [ -d ./data ] || mkdir ./data
 
   shift
 fi
@@ -127,8 +128,8 @@ for entity in "node" "comment" "user"; do
     NAME="RESOURCE_$1"
     RESOURCE=${!NAME}
     echo "curl --user $CURL_USER --header "\"$ACCEPT_HEADER\"" --request GET $URL/$RESOURCE"
-    curl --user $CURL_USER --header "$ACCEPT_HEADER" --request GET $URL/$RESOURCE > $1.json
-    cat $1.json
+    curl --user $CURL_USER --header "$ACCEPT_HEADER" --request GET $URL/$RESOURCE > ./data/$1.json
+    cat ./data/$1.json
     echo
     shift
   fi
