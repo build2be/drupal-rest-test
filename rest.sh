@@ -135,6 +135,11 @@ if [ "$1" == "web" ]; then
   shift
 fi
 
+if [ "$1" == "anon" ]; then
+  CURL_USER="anonymous:"
+  shift
+fi
+
 # When adding new entity make sure to add it's RESOURCE_ above
 for entity in "node" "comment" "user" "taxonomy_vocabulary"; do
   if [ "$1" == "$entity" ]; then
