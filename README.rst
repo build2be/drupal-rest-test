@@ -3,6 +3,21 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+About this project
+==================
+
+As setting up a test environment is cumbersome this project provides for a install and test script.
+
+It has a POST script to try posting entities into Drupal 8
+
+DIY HAL POST a node is https://www.drupal.org/node/2098511
+
+Known issues:
+
+- Config Entities are not available
+- REST errors are not informative https://www.drupal.org/node/1916302
+- How to POST comments 9and others) https://www.drupal.org/node/2300827
+
 Requirements
 ============
 
@@ -31,7 +46,7 @@ The script installs Rest UI and Devel modules:
 
 
 Switch to REST server mode
-=========================
+==========================
 
 ::
 
@@ -61,3 +76,13 @@ Run available tests
 
     ./rest.sh hal config node comment user
 
+
+Test POST using HAL
+===================
+
+Create a clear install with supporting modules::
+
+    ./rest.sh install-modules install
+    ./rest.sh hal-set hal config
+    ./rest.sh hal node comment user # writes node/1 comment/1 and user/1 into /data dir
+    php ./post.php # tries to post new node, comment, user
