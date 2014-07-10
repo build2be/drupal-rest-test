@@ -52,13 +52,20 @@ class Runner {
     $entity = array(
       '_links' => array(
         'type' => array(
-          'href' => $json->_links->type->href,
+          $json->_links->type,
         )
       ),
     );
+    unset($json->_links->type->self);
     if ($entity_type == 'node') {
       $entity['title'] = $json->title;
       $entity['body'] = $json->body;
+    }
+    if ($entity_type == 'comment') {
+      $entity['subject'] = $json->subject;
+      $entity['comment_body'] = isset($json->comment_body) ? $json->comment_body : "Empty body by " . __FILE__;
+      $entity['comment_type'] = $json->comment_type;
+      $entity['entity_id'] = array('value' => 'node/1');
     }
     return $entity;
   }
@@ -86,10 +93,11 @@ $r->init();
 $c = $r->getConfig();
 
 foreach ($c['lookup'] as $entity => $data) {
-  $source = file_get_contents($entity . ".json");
+  $source = file_get_contents(__DIR__ . '/data/' . $entity . ".json");
 
   $json = json_decode($source);
   $post_entity = $r->build($entity, $json);
+  file_put_contents(__DIR__ . '/data/' . $entity . "-post.json", json_encode($post_entity, TRUE));
 
   if ($post_entity) {
     $r->postEntity($entity, $post_entity);
