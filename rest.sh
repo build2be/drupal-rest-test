@@ -42,8 +42,10 @@ if [ "$1" == "install" ]; then
   # enable helpers
   drush @$DRUSH_ALIAS --yes pm-enable restui devel_generate
 
+  drush @$DRUSH_ALIAS generate-users 3
+
   # Generate a node + comment
-  drush @$DRUSH_ALIAS generate-content --types=article 1 1
+  drush @$DRUSH_ALIAS generate-content --types=article 2 3
 
   cp ./rest.yml.dist ./rest.yml
   cp ./hal.yml.dist ./hal.yml
@@ -59,8 +61,6 @@ if [ "$1" == "rest-set" ]; then
   cat ./rest.yml | drush @$DRUSH_ALIAS config-set --yes --format=yaml rest.settings resources.entity -
   drush @$DRUSH_ALIAS cache-rebuild
 
-  SET_PERMS=1
-
   shift
 fi
 
@@ -75,8 +75,6 @@ if [ "$1" == "hal-set" ]; then
   cat ./hal.yml | drush @$DRUSH_ALIAS config-set --yes --format=yaml rest.settings resources.entity -
   drush @$DRUSH_ALIAS cache-rebuild
 
-  SET_PERMS=1
-
   shift
 fi
 
@@ -85,22 +83,24 @@ if [ "$1" == "hal" ]; then
   shift
 fi
 
-if [ "$SET_PERMS" == "1" ]; then
+if [ "$1" == "perms" ]; then
   echo "--------------------------------------"
   echo "Setting permissions"
 
   for role in "anonymous" "administrator"; do
 
-    drush @$DRUSH_ALIAS role-add-perm $role "restful get entity:node"
-    drush @$DRUSH_ALIAS role-add-perm $role "restful post entity:node"
+    for perm in "create article content" "edit any article content" "delete any article content"; do
+      drush @$DRUSH_ALIAS role-add-perm "$role" "$perm"
+    done
 
-    drush @$DRUSH_ALIAS role-add-perm $role "restful get entity:comment"
-    drush @$DRUSH_ALIAS role-add-perm $role "restful post entity:comment"
-
-    drush @$DRUSH_ALIAS role-add-perm $role "restful get entity:user"
-
-    drush @$DRUSH_ALIAS role-add-perm $role "restful get entity:taxonomy_vocabulary"
+    for entity in "node" "comment" "user" "taxonomy_vocabulary"; do
+      for perm in "restful get entity:$entity" "restful post entity:$entity" "restful delete entity:$entity" "restful patch entity:$entity"; do
+        drush @$DRUSH_ALIAS role-add-perm "$role" "$perm"
+      done
+    done
   done
+
+  shift
 fi
 
 if [ "$1" == "config" ]; then

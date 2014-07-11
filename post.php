@@ -14,7 +14,7 @@ class Runner {
       'user' => "admin",
       'password' => "admin",
       'lookup' => array(
-        'node' => resource('node/', 'entity/node/'),
+        'node' => resource('node/', 'entity/node'),
         'comment' => resource('comment/', 'entity/comment'),
       ),
     );
@@ -57,11 +57,16 @@ class Runner {
       ),
     );
     unset($json->_links->type->self);
+    // As we are posting this IS a new thing
+    unset($json->uuid);
+
     if ($entity_type == 'node') {
       $entity['title'] = $json->title;
       $entity['body'] = $json->body;
     }
     if ($entity_type == 'comment') {
+      // For now we kick back the JSON: See https://www.drupal.org/node/2300827
+      return $json;
       $entity['subject'] = $json->subject;
       $entity['comment_body'] = isset($json->comment_body) ? $json->comment_body : "Empty body by " . __FILE__;
       $entity['comment_type'] = $json->comment_type;
