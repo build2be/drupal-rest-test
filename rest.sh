@@ -164,10 +164,26 @@ if [ $ARGS -eq 0 ]; then
   echo "- rest config node comment user : Call with $JSON_HEADER"
   echo "- hal-set config                : Switch to hal context"
   echo "- hal config node comment user  : Call with $JSON_HEADER"
+  echo "- check the order of your arguments or just run $0 for help"
+  echo "- the order of commands is"
+  echo "  - install-modules"
+  echo "  - install"
+  echo "  - rest-set"
+  echo "  - rest"
+  echo "  - hal-set"
+  echo "  - hal"
+  echo "  - perms"
+  echo "  - config"
+  echo "  - web"
+  echo "  - anon"
+  echo "  - node"
+  echo "  - comment"
+  echo "  - user"
+  echo "  - taxonomy_vocabulary"
   echo
 fi
 
 if [ "$#" -ne 0 ]; then
-  echo "Failed to proces argumetns starting from: $1"
-  echo "- check the order of your arguments or just run $0 for help"
+  echo "Failed to process arguments starting from: $1"
+  $0
 fi
