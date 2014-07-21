@@ -45,14 +45,19 @@ if [ "$1" == "install" ]; then
   # enable helpers
   drush @$DRUSH_ALIAS --yes pm-enable restui devel_generate
 
+  cp ./rest.yml.dist ./rest.yml
+  cp ./hal.yml.dist ./hal.yml
+  [ -d ./data ] || mkdir ./data
+
+  shift
+fi
+
+if [ "$1" == "content" ]; then
+
   drush @$DRUSH_ALIAS generate-users 3
 
   # Generate a node + comment
   drush @$DRUSH_ALIAS generate-content --types=article 2 3
-
-  cp ./rest.yml.dist ./rest.yml
-  cp ./hal.yml.dist ./hal.yml
-  [ -d ./data ] || mkdir ./data
 
   shift
 fi
@@ -162,27 +167,30 @@ echo
 if [ $ARGS -eq 0 ]; then
   echo "Run with one of the following argument(s):"
   echo
-  echo "- install config                : Run once to install Drupal and prepares config *-dist.yml"
-  echo "- rest-set config               : Switch to rest context"
-  echo "- rest config node comment user : Call with $JSON_HEADER"
-  echo "- hal-set config                : Switch to hal context"
-  echo "- hal config node comment user  : Call with $JSON_HEADER"
+  echo "- install-modules install config : Run once to install Drupal and prepares config *-dist.yml"
+  echo "- content                        : Generate node/1 user/1 comment/1 etc."
+  echo "- rest-set config                : Switch to rest context"
+  echo "- rest config node comment user  : Call with '$JSON_HEADER'"
+  echo "- hal-set config                 : Switch to hal context"
+  echo "- hal config node comment user   : Call with '$HAL_HEADER'"
+  echo ""
   echo "- check the order of your arguments or just run $0 for help"
   echo "- the order of commands is"
-  echo "  - install-modules"
-  echo "  - install"
-  echo "  - rest-set"
-  echo "  - rest"
-  echo "  - hal-set"
-  echo "  - hal"
-  echo "  - perms"
-  echo "  - config"
-  echo "  - web"
-  echo "  - anon"
-  echo "  - node"
-  echo "  - comment"
-  echo "  - user"
-  echo "  - taxonomy_vocabulary"
+  echo "  - install-modules              : installs latest devel and restui contrib modules"
+  echo "  - install                      : installs drupal and enable appropriate modules"
+  echo "  - content                      : devel generate content"
+  echo "  - rest-set                     : makes sure rest is configured correctly"
+  echo "  - rest                         : set context to rest"
+  echo "  - hal-set                      : makes sure hal is configured correctly"
+  echo "  - hal                          : set context to hal"
+  echo "  - perms                        : set all permissions"
+  echo "  - config                       : list current congig"
+  echo "  - web                          : alias to drush user-login"
+  echo "  - anon                         : run REST/hal calls as anonymous user"
+  echo "  - node                         : operate on -"
+  echo "  - comment                      : operate on -"
+  echo "  - user                         : operate on -"
+  echo "  - taxonomy_vocabulary          : operate on -"
   echo
 fi
 
