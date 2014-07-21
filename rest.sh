@@ -27,8 +27,11 @@ ARGS=$#
 if [ "$1" == "install-modules" ]; then
   # install helpers
   drush @$DRUSH_ALIAS --yes dl devel --package-handler=git_drupalorg
+
   # Make sure not to grab a version like 1.8
-  drush @$DRUSH_ALIAS --yes dl restui-1.x --package-handler=git_drupalorg
+  drush @$DRUSH_ALIAS --yes dl --package-handler=git_drupalorg restui-1.x
+
+  drush @$DRUSH_ALIAS --yes dl --package-handler=git_drupalorg oauth
   shift
 fi
 
