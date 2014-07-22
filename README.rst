@@ -56,6 +56,16 @@ Permissions depends on the the `rest.yml` and `hal.yml` files. So check when in 
     ./rest.sh hal-set perms
 
 
+Content
+=======
+
+Make sure to have content posted through devel.
+
+::
+
+    ./rest.sh content
+
+
 Switch to REST server mode
 ==========================
 
