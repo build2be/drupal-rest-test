@@ -1,3 +1,6 @@
 *.yml
 rest.config
 data/
+vendor/
+composer.lock
+.idea
