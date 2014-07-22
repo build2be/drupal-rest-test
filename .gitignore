@@ -1,4 +1,3 @@
-hal.yml
-rest.yml
+*.yml
 rest.config
 data/
