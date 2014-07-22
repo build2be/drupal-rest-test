@@ -14,9 +14,9 @@ DIY HAL POST a node is https://www.drupal.org/node/2098511
 
 Known issues:
 
-- Config Entities are not available
-- REST errors are not informative https://www.drupal.org/node/1916302
-- How to POST comments 9and others) https://www.drupal.org/node/2300827
+- Config Entities are not available through both REST or HAL. `Support ConfigEntity via REST <https://www.drupal.org/node/2300677>`_
+- REST errors are not informative `Serve REST errors as application/api-problem+json OR application/vnd.error+json) <https://www.drupal.org/node/1916302>`_
+- Manually `How to POST a comment and other relational entities <https://www.drupal.org/node/2300827>`_
 
 Requirements
 ============
