@@ -33,6 +33,16 @@ Install
 * Copy the rest.config.dist to rest.config
 * Edit rest.config and set DRUSH_ALIAS and URL to your system config.
 
+One liner
+=========
+
+Only run this on a empty drupal and at your own risk.
+
+::
+
+    ./rest.sh install-modules install content hal-set hal perms node comment user
+
+
 Install Drupal
 ==============
 

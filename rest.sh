@@ -39,6 +39,8 @@ fi
 
 if [ "$1" == "install" ]; then
   drush @$DRUSH_ALIAS --yes site-install
+
+  # TODO: split this into enable?
   drush @$DRUSH_ALIAS user-password admin --password=admin
 
   # defaults according to /core/modules/rest/config/install
