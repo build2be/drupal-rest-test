@@ -18,6 +18,8 @@ RESOURCE_node=node/2
 RESOURCE_user=user/1
 RESOURCE_comment=comment/1
 RESOURCE_taxonomy_vocabulary=entity/taxonomy_vocabulary/tags
+RESOURCE_nodes=api/rest/nodes
+
 # TODO: add resources for
 # taxonomy=taxonomy/term/1
 
@@ -47,9 +49,23 @@ if [ "$1" == "install" ]; then
 
   cp ./rest.yml.dist ./rest.yml
   cp ./hal.yml.dist ./hal.yml
+  cp ./views.view.rest_nodes.yml.dist ./views.view.rest_nodes.yml
+
   [ -d ./data ] || mkdir ./data
 
   shift
+fi
+
+if [ "$1" == "views" ]; then
+  echo "FIXME: $1"
+  echo "Please load the view(s) manually."
+  # TODO: somehow this is not loaded
+  cat ./views.view.rest_nodes.yml | drush @$DRUSH_ALIAS config-set --yes --format=yaml views.view rest_nodes -
+
+  drush @$DRUSH_ALIAS cache-rebuild
+
+  # TODO: remove comment to make processing work again.
+  # shift
 fi
 
 if [ "$1" == "content" ]; then
@@ -151,14 +167,18 @@ if [ "$1" == "anon" ]; then
 fi
 
 # When adding new entity make sure to add it's RESOURCE_ above
-for entity in "node" "comment" "user" "taxonomy_vocabulary"; do
+for entity in "nodes" "node" "comment" "user" "taxonomy_vocabulary"; do
   if [ "$1" == "$entity" ]; then
     echo "========================"
     NAME="RESOURCE_$1"
     RESOURCE=${!NAME}
+    FILE_NAME=./data/${MODULE_NAME}-$1.json
     echo "curl --user $CURL_USER --header "\"$ACCEPT_HEADER\"" --request GET $URL/$RESOURCE"
-    curl --user $CURL_USER --header "$ACCEPT_HEADER" --request GET $URL/$RESOURCE > ./data/${MODULE_NAME}-$1.json
-    cat ./data/$1.json
+    curl --user $CURL_USER --header "$ACCEPT_HEADER" --request GET $URL/$RESOURCE > $FILE_NAME
+    echo ==========   RESPONSE   ==========
+    cat $FILE_NAME
+    echo ""
+    echo =========== END RESPONSE =========
     echo
     shift
   fi
@@ -180,6 +200,7 @@ if [ $ARGS -eq 0 ]; then
   echo "- the order of commands is"
   echo "  - install-modules              : installs latest devel and restui contrib modules"
   echo "  - install                      : installs drupal and enable appropriate modules"
+  echo "  - views                        : installs views FIXME"
   echo "  - content                      : devel generate content"
   echo "  - rest-set                     : makes sure rest is configured correctly"
   echo "  - rest                         : set context to rest"
