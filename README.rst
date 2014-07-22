@@ -44,6 +44,17 @@ The script installs Rest UI and Devel modules:
 
     ./rest.sh install-modules install config
 
+Set permissions
+===============
+
+Settings permissions depends on your command order. Make sure you have enabled either REST or HAL once.
+Permissions depends on the the `rest.yml` and `hal.yml` files. So check when in doubt.
+
+::
+
+    ./rest.sh rest-set perms
+    ./rest.sh hal-set perms
+
 
 Switch to REST server mode
 ==========================
@@ -51,7 +62,6 @@ Switch to REST server mode
 ::
 
     ./rest.sh rest-set rest config
-
 
 Run available tests
 -------------------
