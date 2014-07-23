@@ -14,10 +14,9 @@ ACCEPT_HEADER=$HAL_HEADER
 CURL_USER="admin:admin"
 
 # resources
-RESOURCE_node=node/2
+RESOURCE_node=node/1
 RESOURCE_user=user/1
 RESOURCE_comment=comment/1
-RESOURCE_taxonomy_vocabulary=entity/taxonomy_vocabulary/tags
 RESOURCE_nodes=api/rest/nodes
 
 # TODO: add resources for
@@ -26,6 +25,29 @@ RESOURCE_nodes=api/rest/nodes
 # Only show help when no arguments found
 ARGS=$#
 
+# Define some macros
+
+##  - install-hal : quickly installs and configures an empty site for HAL and query for content
+if [ "$1" == "install-hal" ]; then
+  $0 install-modules install content hal-set hal perms
+  $0 hal nodes node comment user
+  $0 hal-content-anon
+  exit;
+fi
+
+##  - hal-content : query as admin for all configured content
+if [ "$1" == "hal-content" ]; then
+  $0 hal nodes node comment user
+  exit;
+fi
+
+##  - hal-content-anon : query as anonymous for all configured content
+if [ "$1" == "hal-content-anon" ]; then
+  $0 hal anon nodes node comment user
+  exit;
+fi
+
+##  - install-modules : install contrib modules: devel rest_ui oauth
 if [ "$1" == "install-modules" ]; then
   # install helpers
   drush @$DRUSH_ALIAS --yes dl devel --package-handler=git_drupalorg
@@ -37,6 +59,7 @@ if [ "$1" == "install-modules" ]; then
   shift
 fi
 
+##  - install : reinstalls drupal enable modules and setup config
 if [ "$1" == "install" ]; then
   drush @$DRUSH_ALIAS --yes site-install
 
@@ -58,6 +81,7 @@ if [ "$1" == "install" ]; then
   shift
 fi
 
+##  - views : tries to install a view for the 'nodes'
 if [ "$1" == "views" ]; then
   echo "FIXME: $1"
   echo "Please load the view(s) manually."
@@ -70,6 +94,7 @@ if [ "$1" == "views" ]; then
   # shift
 fi
 
+##  - content : generated the needed data: users nodes comment
 if [ "$1" == "content" ]; then
 
   drush @$DRUSH_ALIAS generate-users 3
@@ -80,6 +105,7 @@ if [ "$1" == "content" ]; then
   shift
 fi
 
+##  - rest-set : enable the rest module disable the hal module and load config
 if [ "$1" == "rest-set" ]; then
   drush @$DRUSH_ALIAS --yes pm-enable rest
   drush @$DRUSH_ALIAS --yes pm-uninstall hal
@@ -90,12 +116,14 @@ if [ "$1" == "rest-set" ]; then
   shift
 fi
 
+##  - rest : set the accept header
 if [ "$1" == "rest" ]; then
   ACCEPT_HEADER=$JSON_HEADER
   MODULE_NAME="rest"
   shift
 fi
 
+##  - hal-set : enable the hal module and load config
 if [ "$1" == "hal-set" ]; then
   drush @$DRUSH_ALIAS --yes pm-enable hal
 
@@ -105,12 +133,14 @@ if [ "$1" == "hal-set" ]; then
   shift
 fi
 
+##  - hal : set the accept header
 if [ "$1" == "hal" ]; then
   ACCEPT_HEADER=$HAL_HEADER
   MODULE_NAME="hal"
   shift
 fi
 
+##  - perms : sets the known permissions for the exposed rest resources
 if [ "$1" == "perms" ]; then
   echo "--------------------------------------"
   echo "Setting permissions"
@@ -131,6 +161,7 @@ if [ "$1" == "perms" ]; then
   shift
 fi
 
+# config : shows the config and provides login URL
 if [ "$1" == "config" ]; then
   echo "--------------------------------------"
   echo "Settings:"
@@ -158,18 +189,24 @@ if [ "$1" == "config" ]; then
   shift
 fi
 
+##  - web : alias for drush user-login
 if [ "$1" == "web" ]; then
   drush @$DRUSH_ALIAS user-login admin admin/config/services/rest
   shift
 fi
 
+##  - anon : swith to anonymous user which may not view profile
 if [ "$1" == "anon" ]; then
   CURL_USER="anonymous:"
   shift
 fi
 
 # When adding new entity make sure to add it's RESOURCE_ above
-for entity in "nodes" "node" "comment" "user" "taxonomy_vocabulary"; do
+##  - nodes : query the configured views is successful. FIXME
+##  - node : query for a node resource
+##  - comment : query for a comment resource
+##  - user : query for a user resource
+for entity in "nodes" "node" "comment" "user"; do
   if [ "$1" == "$entity" ]; then
     echo "========================"
     NAME="RESOURCE_$1"
@@ -177,10 +214,10 @@ for entity in "nodes" "node" "comment" "user" "taxonomy_vocabulary"; do
     FILE_NAME=./data/${MODULE_NAME}-$1.json
     echo "curl --user $CURL_USER --header "\"$ACCEPT_HEADER\"" --request GET $URL/$RESOURCE"
     curl --user $CURL_USER --header "$ACCEPT_HEADER" --request GET $URL/$RESOURCE > $FILE_NAME
-    echo ==========   RESPONSE   ==========
+    echo ============ RESPONSE : $RESOURCE ============
     cat $FILE_NAME
     echo ""
-    echo =========== END RESPONSE =========
+    echo =========== END RESPONSE : $RESOURCE =========
     echo
     shift
   fi
@@ -200,22 +237,7 @@ if [ $ARGS -eq 0 ]; then
   echo ""
   echo "- check the order of your arguments or just run $0 for help"
   echo "- the order of commands is"
-  echo "  - install-modules              : installs latest devel and restui contrib modules"
-  echo "  - install                      : installs drupal and enable appropriate modules"
-  echo "  - views                        : installs views FIXME"
-  echo "  - content                      : devel generate content"
-  echo "  - rest-set                     : makes sure rest is configured correctly"
-  echo "  - rest                         : set context to rest"
-  echo "  - hal-set                      : makes sure hal is configured correctly"
-  echo "  - hal                          : set context to hal"
-  echo "  - perms                        : set all permissions"
-  echo "  - config                       : list current congig"
-  echo "  - web                          : alias to drush user-login"
-  echo "  - anon                         : run REST/hal calls as anonymous user"
-  echo "  - node                         : operate on -"
-  echo "  - comment                      : operate on -"
-  echo "  - user                         : operate on -"
-  echo "  - taxonomy_vocabulary          : operate on -"
+  grep "\#\#" $0 | cut -c 3-
   echo
 fi
 
