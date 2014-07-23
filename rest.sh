@@ -59,6 +59,12 @@ if [ "$1" == "install-modules" ]; then
   shift
 fi
 
+##  - hal-9000 : Generate 9000 nodes
+if [ "$1" == "hal-9000" ]; then
+  echo "I can't let you do that, $USER."
+  exit;
+fi
+
 ##  - install : reinstalls drupal enable modules and setup config
 if [ "$1" == "install" ]; then
   drush @$DRUSH_ALIAS --yes site-install
