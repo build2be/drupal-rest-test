@@ -72,16 +72,20 @@ if [ "$1" == "install" ]; then
   # enable helpers
   drush @$DRUSH_ALIAS --yes pm-enable restui devel_generate
 
-  cp ./rest.yml.dist ./rest.yml
-  cp ./hal.yml.dist ./hal.yml
-  cp ./views.view.rest_nodes.yml.dist ./views.view.rest_nodes.yml
-
-  [ -d ./data ] || mkdir ./data
-
   shift
 fi
 
-##  - views : tries to install a view for the 'nodes'
+##  - install-config : copies the .dist files
+if [ "$1" == "install-config" ]; then
+  [ -f ./rest.yml ] || cp ./rest.yml.dist ./rest.yml
+  [ -f ./hal.yml ] || cp ./hal.yml.dist ./hal.yml
+  [ -f ./views.view.rest_nodes.yml ] || cp ./views.view.rest_nodes.yml.dist ./views.view.rest_nodes.yml
+
+  [ -d ./data ] || mkdir ./data
+  shift
+fi
+
+##  - views : tries to install a view for the 'nodes' FIXME
 if [ "$1" == "views" ]; then
   echo "FIXME: $1"
   echo "Please load the view(s) manually."
@@ -91,7 +95,7 @@ if [ "$1" == "views" ]; then
   drush @$DRUSH_ALIAS cache-rebuild
 
   # TODO: remove comment to make processing work again.
-  # shift
+  shift
 fi
 
 ##  - content : generated the needed data: users nodes comment
