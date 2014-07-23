@@ -26,7 +26,7 @@ Requirements
 #. You need to know how to write `Drush aliases <http://drush.ws/examples/example.aliases.drushrc.php>`_
      ``$ vi ~/.drush/drupal.aliases.drushrc.php``
 
-Install
+How to install
 =======
 
 * Checkout this REPO
@@ -40,11 +40,14 @@ Only run this on a empty drupal and at your own risk.
 
 ::
 
-    ./rest.sh install-modules install content hal-set hal perms node comment user
+    ./rest.sh install-hal
 
+
+Step by step
+============
 
 Install Drupal
-==============
+--------------
 
 The script installs Rest UI and Devel modules:
 
@@ -55,7 +58,7 @@ The script installs Rest UI and Devel modules:
     ./rest.sh install-modules install config
 
 Set permissions
-===============
+---------------
 
 Settings permissions depends on your command order. Make sure you have enabled either REST or HAL once.
 Permissions depends on the the `rest.yml` and `hal.yml` files. So check when in doubt.
@@ -67,7 +70,7 @@ Permissions depends on the the `rest.yml` and `hal.yml` files. So check when in 
 
 
 Content
-=======
+-------
 
 Make sure to have content posted through devel.
 
@@ -77,11 +80,12 @@ Make sure to have content posted through devel.
 
 
 Switch to REST server mode
-==========================
+--------------------------
 
 ::
 
     ./rest.sh rest-set rest config
+
 
 Run available tests
 -------------------
@@ -92,7 +96,7 @@ Run available tests
 
 
 Switch to HAL server mode
-=========================
+-------------------------
 
 ::
 
@@ -108,7 +112,7 @@ Run available tests
 
 
 Test POST using HAL
-===================
+-------------------
 
 Create a clear install with supporting modules::
 
