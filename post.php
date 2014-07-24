@@ -99,11 +99,11 @@ $r->init();
 $c = $r->getConfig();
 
 foreach ($c['lookup'] as $entity => $data) {
-  $source = file_get_contents(__DIR__ . '/data/' . $c['hal'] . '-' . $entity . ".json");
+  $source = file_get_contents(__DIR__ . '/data/' . $c['module'] . '-' . $entity . ".json");
 
   $json = json_decode($source);
   $post_entity = $r->build($entity, $json);
-  file_put_contents(__DIR__ . '/data/' . $c['hal'] . '-' . $entity . '-post.json', json_encode($post_entity, TRUE));
+  file_put_contents(__DIR__ . '/data/' . $c['module'] . '-' . $entity . '-post.json', json_encode($post_entity, TRUE));
 
   if ($post_entity) {
     $r->postEntity($entity, $post_entity);

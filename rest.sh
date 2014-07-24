@@ -66,12 +66,12 @@ fi
 ##  - install-modules : install contrib modules: devel rest_ui oauth
 if [ "$1" == "install-modules" ]; then
   # install helpers
-  drush @$DRUSH_ALIAS --yes dl PACKAGE_HANDLER devel
+  drush @$DRUSH_ALIAS --yes dl $PACKAGE_HANDLER devel
 
   # Make sure not to grab a version like 1.8
-  drush @$DRUSH_ALIAS --yes dl PACKAGE_HANDLER restui-1.x
+  drush @$DRUSH_ALIAS --yes dl $PACKAGE_HANDLER restui-1.x
 
-  drush @$DRUSH_ALIAS --yes dl PACKAGE_HANDLER oauth
+  drush @$DRUSH_ALIAS --yes dl $PACKAGE_HANDLER oauth
 
   # defaults according to /core/modules/rest/config/install
   drush @$DRUSH_ALIAS --yes pm-enable rest hal basic_auth
