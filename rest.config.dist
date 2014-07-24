@@ -5,3 +5,7 @@ DRUSH_ALIAS="drupal.d8"
 
 # Rest server
 URL=http://drupal.d8
+
+# Use git package handler
+# PACKAGE_HANDLER="--package-handler=git_drupalorg"
+PACKAGE_HANDLER=""
