@@ -23,7 +23,7 @@ class Runner {
     $c = $this->getConfig();
     $this->client = new Client($c['url']);
     // If in a Drupal environment use the HTTP client service.
-    // $client = \Drupal::httpClient()->setBaseUrl('http://drupal-8.localhost');
+    // $client = \Drupal::httpClient()->setBaseUrl($c['url']);
   }
 
   function getConfig() {
