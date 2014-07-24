@@ -29,7 +29,7 @@ ARGS=$#
 
 ##  - install-hal : quickly installs and configures an empty site for HAL and query for content
 if [ "$1" == "install-hal" ]; then
-  $0 install-modules install content hal-set hal perms
+  $0 install install-modules content hal-set hal perms
   $0 hal nodes node comment user
   $0 hal-content-anon
   exit;
@@ -47,18 +47,6 @@ if [ "$1" == "hal-content-anon" ]; then
   exit;
 fi
 
-##  - install-modules : install contrib modules: devel rest_ui oauth
-if [ "$1" == "install-modules" ]; then
-  # install helpers
-  drush @$DRUSH_ALIAS --yes dl devel --package-handler=git_drupalorg
-
-  # Make sure not to grab a version like 1.8
-  drush @$DRUSH_ALIAS --yes dl --package-handler=git_drupalorg restui-1.x
-
-  drush @$DRUSH_ALIAS --yes dl --package-handler=git_drupalorg oauth
-  shift
-fi
-
 ##  - hal-9000 : Generate 9000 nodes
 if [ "$1" == "hal-9000" ]; then
   echo "I can't let you do that, $USER."
@@ -71,6 +59,19 @@ if [ "$1" == "install" ]; then
 
   # TODO: split this into enable?
   drush @$DRUSH_ALIAS user-password admin --password=admin
+
+  shift
+fi
+
+##  - install-modules : install contrib modules: devel rest_ui oauth
+if [ "$1" == "install-modules" ]; then
+  # install helpers
+  drush @$DRUSH_ALIAS --yes dl PACKAGE_HANDLER devel
+
+  # Make sure not to grab a version like 1.8
+  drush @$DRUSH_ALIAS --yes dl PACKAGE_HANDLER restui-1.x
+
+  drush @$DRUSH_ALIAS --yes dl PACKAGE_HANDLER oauth
 
   # defaults according to /core/modules/rest/config/install
   drush @$DRUSH_ALIAS --yes pm-enable rest hal basic_auth
