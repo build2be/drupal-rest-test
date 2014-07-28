@@ -27,7 +27,7 @@ ARGS=$#
 
 # Define some macros
 
-##  - install-hal : quickly installs and configures an empty site for HAL and query for content
+## ALIAS ##  - install-hal : Quickly installs and configures an empty site for HAL and query for content
 if [ "$1" == "install-hal" ]; then
   $0 install install-modules content hal-set hal perms
   $0 hal nodes node comment user
@@ -35,19 +35,19 @@ if [ "$1" == "install-hal" ]; then
   exit;
 fi
 
-##  - hal-content : query as admin for all configured content
+## ALIAS ##  - hal-content : Query as admin for all hal configured content
 if [ "$1" == "hal-content" ]; then
   $0 hal nodes node comment user
   exit;
 fi
 
-##  - hal-content-anon : query as anonymous for all configured content
+## ALIAS ##  - hal-content-anon : Query as anonymous for all configured content
 if [ "$1" == "hal-content-anon" ]; then
   $0 hal anon nodes node comment user
   exit;
 fi
 
-##  - hal-9000 : Generate 9000 nodes
+## ALIAS ##  - hal-9000 : Generate 42 nodes
 if [ "$1" == "hal-9000" ]; then
   echo "I can't let you do that, $USER."
   exit;
@@ -237,18 +237,15 @@ done
 echo
 
 if [ $ARGS -eq 0 ]; then
-  echo "Run with one of the following argument(s):"
-  echo
-  echo "- install-modules install config : Run once to install Drupal and prepares config *-dist.yml"
-  echo "- content                        : Generate node/1 user/1 comment/1 etc."
-  echo "- rest-set config                : Switch to rest context"
-  echo "- rest config node comment user  : Call with '$JSON_HEADER'"
-  echo "- hal-set config                 : Switch to hal context"
-  echo "- hal config node comment user   : Call with '$HAL_HEADER'"
+  echo "Run with one of the following argument(s) in order of appearance:"
   echo ""
-  echo "- check the order of your arguments or just run $0 for help"
-  echo "- the order of commands is"
-  grep "\#\#" $0 | cut -c 3-
+  echo "Quick start argument sets are:"
+  echo ""
+  grep "\#\#" $0 | grep "ALIAS" | cut -c 12-
+  echo ""
+  echo "Step by step arguments are:"
+  echo ""
+  grep "\#\#" $0 | grep -v "ALIAS" | cut -c 3-
   echo
 fi
 
