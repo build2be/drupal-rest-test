@@ -11,7 +11,11 @@ JSON_HEADER="Accept: application/json"
 # defaults according to /core/modules/rest/config/install
 ACCEPT_HEADER=$HAL_HEADER
 
-CURL_USER="admin:admin"
+USER_1_NAME=`echo $USER_1 | cut -d: -f1`
+USER_1_PASS=`echo $USER_1 | cut -d: -f2`
+
+CURL_USERNAME=`echo $CURL_USER | cut -d: -f1`
+CURL_PASSWORD=`echo $CURL_USER | cut -d: -f2`
 
 # resources
 RESOURCE_node=node/1
@@ -29,8 +33,8 @@ ARGS=$#
 
 ## ALIAS ##  - install-hal : Quickly installs and configures an empty site for HAL and query for content
 if [ "$1" == "install-hal" ]; then
-  $0 install install-modules content hal-set hal perms
-  $0 hal nodes node comment user
+  $0 install install-modules content hal-set perms
+  $0 hal-content
   $0 hal-content-anon
   exit;
 fi
@@ -53,12 +57,24 @@ if [ "$1" == "hal-9000" ]; then
   exit;
 fi
 
+## ALIAS ##  - rest-content : Query as $CURL_USERNAME for all hal configured content
+if [ "$1" == "rest-content" ]; then
+  $0 rest nodes node comment user
+  exit;
+fi
+
+## ALIAS ##  - rest-content-anon : Query as anonymous for all configured content
+if [ "$1" == "rest-content-anon" ]; then
+  $0 rest anon nodes node comment user
+  exit;
+fi
+
 ##  - install : reinstalls drupal enable modules and setup config
 if [ "$1" == "install" ]; then
-  drush @$DRUSH_ALIAS --yes site-install
+  drush $DRUSH_ALIAS --yes site-install
 
   # TODO: split this into enable?
-  drush @$DRUSH_ALIAS user-password admin --password=admin
+  drush $DRUSH_ALIAS user-password $USER_1_NAME --password=$USER_1_PASS
 
   shift
 fi
@@ -66,18 +82,18 @@ fi
 ##  - install-modules : install contrib modules: devel rest_ui oauth
 if [ "$1" == "install-modules" ]; then
   # install helpers
-  drush @$DRUSH_ALIAS --yes dl $PACKAGE_HANDLER devel
+  drush $DRUSH_ALIAS --yes dl $PACKAGE_HANDLER devel
 
   # Make sure not to grab a version like 1.8
-  drush @$DRUSH_ALIAS --yes dl $PACKAGE_HANDLER restui-1.x
+  drush $DRUSH_ALIAS --yes dl $PACKAGE_HANDLER restui-1.x
 
-  drush @$DRUSH_ALIAS --yes dl $PACKAGE_HANDLER oauth
+  drush $DRUSH_ALIAS --yes dl $PACKAGE_HANDLER oauth
 
   # defaults according to /core/modules/rest/config/install
-  drush @$DRUSH_ALIAS --yes pm-enable rest hal basic_auth
+  drush $DRUSH_ALIAS --yes pm-enable rest hal basic_auth
 
   # enable helpers
-  drush @$DRUSH_ALIAS --yes pm-enable restui devel_generate
+  drush $DRUSH_ALIAS --yes pm-enable restui devel_generate
 
   shift
 fi
@@ -97,9 +113,9 @@ if [ "$1" == "views" ]; then
   echo "FIXME: $1"
   echo "Please load the view(s) manually."
   # TODO: somehow this is not loaded
-  cat ./views.view.rest_nodes.yml | drush @$DRUSH_ALIAS config-set --yes --format=yaml views.view rest_nodes -
+  cat ./views.view.rest_nodes.yml | drush $DRUSH_ALIAS config-set --yes --format=yaml views.view rest_nodes -
 
-  drush @$DRUSH_ALIAS cache-rebuild
+  drush $DRUSH_ALIAS cache-rebuild
 
   # TODO: remove comment to make processing work again.
   shift
@@ -108,21 +124,21 @@ fi
 ##  - content : generated the needed data: users nodes comment
 if [ "$1" == "content" ]; then
 
-  drush @$DRUSH_ALIAS generate-users 3
+  drush $DRUSH_ALIAS generate-users 3
 
   # Generate a node + comment
-  drush @$DRUSH_ALIAS generate-content --types=article 2 3
+  drush $DRUSH_ALIAS generate-content --types=article 2 3
 
   shift
 fi
 
 ##  - rest-set : enable the rest module disable the hal module and load config
 if [ "$1" == "rest-set" ]; then
-  drush @$DRUSH_ALIAS --yes pm-enable rest
-  drush @$DRUSH_ALIAS --yes pm-uninstall hal
+  drush $DRUSH_ALIAS --yes pm-enable rest
+  drush $DRUSH_ALIAS --yes pm-uninstall hal
 
-  cat ./rest.yml | drush @$DRUSH_ALIAS config-set --yes --format=yaml rest.settings resources.entity -
-  drush @$DRUSH_ALIAS cache-rebuild
+  cat ./rest.yml | drush $DRUSH_ALIAS config-set --yes --format=yaml rest.settings resources.entity -
+  drush $DRUSH_ALIAS cache-rebuild
 
   shift
 fi
@@ -136,10 +152,10 @@ fi
 
 ##  - hal-set : enable the hal module and load config
 if [ "$1" == "hal-set" ]; then
-  drush @$DRUSH_ALIAS --yes pm-enable hal
+  drush $DRUSH_ALIAS --yes pm-enable hal
 
-  cat ./hal.yml | drush @$DRUSH_ALIAS config-set --yes --format=yaml rest.settings resources.entity -
-  drush @$DRUSH_ALIAS cache-rebuild
+  cat ./hal.yml | drush $DRUSH_ALIAS config-set --yes --format=yaml rest.settings resources.entity -
+  drush $DRUSH_ALIAS cache-rebuild
 
   shift
 fi
@@ -158,19 +174,19 @@ if [ "$1" == "perms" ]; then
 
   for role in "anonymous" "administrator"; do
 
-    # https://github.com/drush-ops/drush/pull/740
-    # drush @$DRUSH_ALIAS role-add-perm "$role" "create article content" "edit any article content" "delete any article content"
+    # Waiting for https://github.com/drush-ops/drush/pull/740
+    # drush $DRUSH_ALIAS role-add-perm "$role" "create article content" "edit any article content" "delete any article content"
 
     for perm in "create article content" "edit any article content" "delete any article content"; do
-      drush @$DRUSH_ALIAS role-add-perm "$role" "$perm"
+      drush $DRUSH_ALIAS role-add-perm "$role" "$perm"
     done
 
     for entity in "node" "comment" "user"; do
-      # https://github.com/drush-ops/drush/pull/740
-      # drush @$DRUSH_ALIAS role-add-perm "$role" "restful get entity:$entity" "restful post entity:$entity" "restful delete entity:$entity" "restful patch entity:$entity"
+      # Waiting for https://github.com/drush-ops/drush/pull/740
+      # drush $DRUSH_ALIAS role-add-perm "$role" "restful get entity:$entity" "restful post entity:$entity" "restful delete entity:$entity" "restful patch entity:$entity"
 
       for perm in "restful get entity:$entity" "restful post entity:$entity" "restful delete entity:$entity" "restful patch entity:$entity"; do
-        drush @$DRUSH_ALIAS role-add-perm "$role" "$perm"
+        drush $DRUSH_ALIAS role-add-perm "$role" "$perm"
       done
     done
   done
@@ -183,7 +199,7 @@ if [ "$1" == "config" ]; then
   echo "--------------------------------------"
   echo "Settings:"
   echo
-  echo "- alias   : @$DRUSH_ALIAS"
+  echo "- drush   : $DRUSH_ALIAS"
   echo "- accept  : $ACCEPT_HEADER"
   echo "- node    : $RESOURCE_node"
   echo "- comment : $RESOURCE_comment"
@@ -192,23 +208,23 @@ if [ "$1" == "config" ]; then
   echo "--------------------------------------"
   echo "rest.settings:"
   echo
-  drush @$DRUSH_ALIAS config-get rest.settings
+  drush $DRUSH_ALIAS config-get rest.settings
 
   echo "--------------------------------------"
   echo "Database 'rest.entity.' config:"
   echo
-  drush @$DRUSH_ALIAS sql-query "SELECT name, path FROM router WHERE name LIKE 'rest.entity.%';"
+  drush $DRUSH_ALIAS sql-query "SELECT name, path FROM router WHERE name LIKE 'rest.entity.%';"
 
   echo "--------------------------------------"
   echo "# Verify config manually"
-  drush @$DRUSH_ALIAS user-login admin admin/config/services/rest
+  drush $DRUSH_ALIAS user-login admin admin/config/services/rest
 
   shift
 fi
 
 ##  - web : alias for drush user-login
 if [ "$1" == "web" ]; then
-  drush @$DRUSH_ALIAS user-login admin admin/config/services/rest
+  drush $DRUSH_ALIAS user-login admin admin/config/services/rest
   shift
 fi
 
@@ -243,7 +259,7 @@ done
 echo
 
 if [ $ARGS -eq 0 ]; then
-  echo "Run with one of the following argument(s) in order of appearance:"
+  echo "Run with one or more of the following argument(s) in order of appearance:"
   echo ""
   echo "Quick start argument sets are:"
   echo ""
