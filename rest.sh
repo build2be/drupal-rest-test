@@ -21,7 +21,10 @@ CURL_PASSWORD=`echo $CURL_USER | cut -d: -f2`
 RESOURCE_node=node/1
 RESOURCE_user=user/1
 RESOURCE_comment=comment/1
-RESOURCE_nodes=api/rest/nodes
+
+# depends on https://www.drupal.org/node/2100637
+# Needs a rest views display on /node
+RESOURCE_nodes=nodes
 
 # TODO: add resources for
 # taxonomy=taxonomy/term/1
