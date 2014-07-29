@@ -33,83 +33,40 @@ How to install
 * Copy the rest.config.dist to rest.config
 * Edit rest.config and set DRUSH_ALIAS and URL to your system config.
 
-One liner
-=========
+Command line options
+====
 
-Only run this on a empty drupal and at your own risk.
+Run ``$ ./rest.sh`` gives:
 
-::
+Run with one of the following argument(s) in order of appearance:
 
-    ./rest.sh install-hal
+Quick start argument sets are:
 
+  - install-hal : Quickly installs and configures an empty site for HAL and query for content
+  - hal-content : Query as admin for all hal configured content
+  - hal-content-anon : Query as anonymous for all configured content
+  - hal-9000 : Generate 42 nodes
+  - json-content : Query as admin for all hal configured content
+  - json-content-anon : Query as anonymous for all configured content
 
-Step by step
-============
+Step by step arguments are:
 
-Install Drupal
---------------
-
-The script installs Rest UI and Devel modules:
-
-* Install Drupal on given alias and URL.
-* Configures Drupal according to the 'default' intended settings.
-* Next shows the config from Rest UI::
-
-    ./rest.sh install-modules install config
-
-Set permissions
----------------
-
-Settings permissions depends on your command order. Make sure you have enabled either REST or HAL once.
-Permissions depends on the the `rest.yml` and `hal.yml` files. So check when in doubt.
-
-::
-
-    ./rest.sh rest-set perms
-    ./rest.sh hal-set perms
-
-
-Content
--------
-
-Make sure to have content posted through devel.
-
-::
-
-    ./rest.sh content
-
-
-Switch to REST server mode
---------------------------
-
-::
-
-    ./rest.sh rest-set rest config
-
-
-Run available tests
--------------------
-
-::
-
-    ./rest.sh rest config node comment user
-
-
-Switch to HAL server mode
--------------------------
-
-::
-
-    ./rest.sh hal-set hal config
-
-
-Run available tests
--------------------
-
-::
-
-    ./rest.sh hal config node comment user
-
+  - install : reinstalls drupal enable modules and setup config
+  - install-modules : install contrib modules: devel rest_ui oauth
+  - install-config : copies the .dist files
+  - views : tries to install a view for the 'nodes' FIXME
+  - content : generated the needed data: users nodes comment
+  - rest-set : enable the rest module disable the hal module and load config
+  - rest : set the accept header
+  - hal-set : enable the hal module and load config
+  - hal : set the accept header
+  - perms : sets the known permissions for the exposed rest resources
+  - web : alias for drush user-login
+  - anon : swith to anonymous user which may not view profile
+  - nodes : query the configured views is successful. FIXME
+  - node : query for a node resource
+  - comment : query for a comment resource
+  - user : query for a user resource
 
 Test POST using HAL
 -------------------
