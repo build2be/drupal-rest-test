@@ -1,7 +1,9 @@
 # Drupal 8 drush alias
 DRUSH_ALIAS="drupal.d8"
-# Change this if you want verbose info into
-# DRUSH_ALIAS="drupal.d8 --verbose"
+# DRUSH_ALIAS="--url=http://drupal.d8 --root=path-to-drupal-8
+
+# Uncomment when needing verbose info into
+# DRUSH_ALIAS="$DRUSH_ALIAS --verbose"
 
 # Rest server
 URL=http://drupal.d8
@@ -9,3 +11,18 @@ URL=http://drupal.d8
 # Use git package handler
 # PACKAGE_HANDLER="--package-handler=git_drupalorg"
 PACKAGE_HANDLER=""
+
+CURL_USER="admin:admin"
+
+
+
+# Rest server
+URL=http://drupal.d8
+
+PACKAGE_HANDLER="--package-handler=git_drupalorg"
+
+# admin user used to configure drupal
+USER_1="admin:admin"
+
+# alternative curl user
+CURL_USER="admin:admin"

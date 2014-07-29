@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ./rest.config
+source ./rest.ini
 
 # Enable command echo
 # set -x
