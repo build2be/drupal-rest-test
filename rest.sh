@@ -96,7 +96,10 @@ if [ "$1" == "install-modules" ]; then
   drush $DRUSH_ALIAS --yes pm-enable rest hal basic_auth
 
   # enable helpers
-  drush $DRUSH_ALIAS --yes pm-enable restui devel_generate
+  drush $DRUSH_ALIAS --yes pm-enable devel_generate
+
+  # broken: https://www.drupal.org/node/2316445
+  # drush $DRUSH_ALIAS --yes restui
 
   shift
 fi
