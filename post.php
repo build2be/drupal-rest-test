@@ -4,120 +4,46 @@ require 'vendor/autoload.php';
 
 use Guzzle\Http\Client;
 
-class Runner {
-  private $config;
-  private $client;
+$config = array(
+  'url' => "http://d8.dev",
+  'username' => "admin",
+  'password' => "admin",
+  'post' => array(
+    'node' => array(
+      'field' => 'title',
+      'value' => 'test',
+      'type' => '/rest/type/node/article'
+    )
+  )
+);
 
-  function init() {
-    $this->config = array(
-      'url' => "http://drupal.d8",
-      'user' => "admin",
-      'module' => 'hal',
-      'password' => "admin",
-      'lookup' => array(
-        'node' => resource('node/', 'entity/node'),
-        'comment' => resource('comment/', 'entity/comment'),
-      ),
-    );
+function buildPayload($config, $task)
+{
+    $payload = array();
+    $payload['_links']['type']['href'] = $config['url'] . $config['post'][$task]['type'];
+    $payload[$config['post'][$task]['field']] = array($config['post'][$task]['value']);
+    return json_encode($payload);
+}
 
-    $c = $this->getConfig();
-    $this->client = new Client($c['url']);
-    // If in a Drupal environment use the HTTP client service.
-    // $client = \Drupal::httpClient()->setBaseUrl($c['url']);
-  }
-
-  function getConfig() {
-    return $this->config;
-  }
-
-  function getClient() {
-    return $this->client;
-  }
-
-  function build($entity_type, $json) {
-    if (!isset($json->_links)) {
-      echo "No need to build node without {_links} value set.";
-      return;
-    }
-    if (!isset($json->_links->type)) {
-      echo "No need to build node without {_links: {type}} value set.";
-      return;
-    }
-    if (!isset($json->_links->type->href)) {
-      echo "No need to build node without {_links: {type: {href}}} value set.";
-      return;
-    }
-
-    $c = $this->getConfig();
-
-    $entity = array(
-      '_links' => array(
-        'type' => array(
-          $json->_links->type,
-        )
-      ),
-    );
-    unset($json->_links->type->self);
-    // As we are posting this IS a new thing
-    unset($json->uuid);
-
-    if ($entity_type == 'node') {
-      $entity['title'] = $json->title;
-      $entity['body'] = $json->body;
-    }
-    if ($entity_type == 'comment') {
-      // For now we kick back the JSON: See https://www.drupal.org/node/2300827
-      return $json;
-      $entity['subject'] = $json->subject;
-      $entity['comment_body'] = isset($json->comment_body) ? $json->comment_body : "Empty body by " . __FILE__;
-      $entity['comment_type'] = $json->comment_type;
-      $entity['entity_id'] = array('value' => 'node/1');
-    }
-    return $entity;
-  }
-
-  function postEntity($entity, $data) {
-    $c = $this->getConfig();
-
-    $data = json_encode($data);
-
-    $response = $this->getClient()->post($c['lookup'][$entity]['hal'], array(
-        'Content-type' => 'application/hal+json',
-      ), $data)
-      // Username and password for HTTP Basic Authentication.
-      ->setAuth($c['user'], $c['password'])
+$client = new Client($config['url']);
+foreach ($config['post'] as $taskname => $task) {
+    $payload = buildPayload($config, $taskname);
+    $headers = array();
+    $headers['Content-type'] = 'application/hal+json';
+    $response = $client->post('entity/' . $taskname, $headers, $payload)
+      ->setAuth($config['username'], $config['password'])
       ->send();
-    if ($response->getStatusCode() == 201) {
-      echo $entity . ' creation successful!' . PHP_EOL;
+
+    echo 'created ' . $taskname . PHP_EOL;
+    echo 'Response status: ' . $response->getStatusCode() . PHP_EOL;
+    if ($response->getStatusCode() > 299 || $response->getStatusCode() < 200) {
+        echo 'Response body: ' . PHP_EOL;
+        try {
+            $body = json_decode($response->getBody(), true);
+            $body = print_r($body, true);
+            echo $body;
+        } catch (Exception $e) {
+            echo $response->getBody();
+        }
     }
-  }
-
-}
-
-$r = new Runner();
-$r->init();
-$c = $r->getConfig();
-
-foreach ($c['lookup'] as $entity => $data) {
-  $source = file_get_contents(__DIR__ . '/data/' . $c['module'] . '-' . $entity . ".json");
-
-  $json = json_decode($source);
-  $post_entity = $r->build($entity, $json);
-  file_put_contents(__DIR__ . '/data/' . $c['module'] . '-' . $entity . '-post.json', json_encode($post_entity, TRUE));
-
-  if ($post_entity) {
-    $r->postEntity($entity, $post_entity);
-  }
-}
-
-exit(0);
-
-
-
-function resource($rest, $hal = NULL) {
-  $hal ?: $rest;
-  return array(
-    'rest' => $rest,
-    'hal' => $hal,
-  );
 }
