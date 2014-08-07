@@ -14,7 +14,8 @@ PACKAGE_HANDLER=""
 
 CURL_USER="admin:admin"
 
-
+# what to use for pretty print: cat, json_pp, pjson, prettyjson
+JSON_PRETTY_PRINT=cat
 
 # Rest server
 URL=http://drupal.d8

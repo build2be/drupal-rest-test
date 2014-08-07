@@ -255,7 +255,7 @@ for entity in "nodes" "node" "comment" "user" "file" ; do
     echo "curl --user $CURL_USER --header "\"$ACCEPT_HEADER\"" --request GET $URL/$RESOURCE"
     curl --user $CURL_USER --header "$ACCEPT_HEADER" --request GET $URL/$RESOURCE > $FILE_NAME
     echo ============ RESPONSE : $RESOURCE ============
-    cat $FILE_NAME
+    cat $FILE_NAME | $JSON_PRETTY_PRINT
     echo ""
     echo =========== END RESPONSE : $RESOURCE =========
     echo
