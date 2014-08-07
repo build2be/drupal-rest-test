@@ -17,3 +17,9 @@ resources:
         - json
       supported_auth:
         - basic_auth
+  'entity:file':
+    GET:
+      supported_formats:
+        - json
+      supported_auth:
+        - basic_auth

@@ -21,6 +21,7 @@ CURL_PASSWORD=`echo $CURL_USER | cut -d: -f2`
 RESOURCE_node=node/1
 RESOURCE_user=user/1
 RESOURCE_comment=comment/1
+RESOURCE_file=entity/file/1
 
 # depends on https://www.drupal.org/node/2100637
 # Needs a rest views display on /node
@@ -245,7 +246,7 @@ fi
 ##  - node : query for a node resource
 ##  - comment : query for a comment resource
 ##  - user : query for a user resource
-for entity in "nodes" "node" "comment" "user"; do
+for entity in "nodes" "node" "comment" "user" "file" ; do
   if [ "$1" == "$entity" ]; then
     echo "========================"
     NAME="RESOURCE_$1"
