@@ -17,12 +17,6 @@ USER_1_PASS=`echo $USER_1 | cut -d: -f2`
 CURL_USERNAME=`echo $CURL_USER | cut -d: -f1`
 CURL_PASSWORD=`echo $CURL_USER | cut -d: -f2`
 
-# resources
-RESOURCE_node=node/1
-RESOURCE_user=user/1
-RESOURCE_comment=comment/1
-RESOURCE_file=entity/file/1
-
 # depends on https://www.drupal.org/node/2100637
 # Needs a rest views display on /node
 RESOURCE_nodes=nodes
