@@ -104,7 +104,6 @@ fi
 ##  - install-config : copies the .dist files
 if [ "$1" == "install-config" ]; then
   [ -f ./rest.yml ] || cp ./rest.yml.dist ./rest.yml
-  [ -f ./hal.yml ] || cp ./hal.yml.dist ./hal.yml
   [ -f ./views.view.rest_nodes.yml ] || cp ./views.view.rest_nodes.yml.dist ./views.view.rest_nodes.yml
 
   [ -d ./data ] || mkdir ./data
@@ -129,16 +128,18 @@ if [ "$1" == "content" ]; then
 
   drush $DRUSH_ALIAS generate-users 3
 
+  # Add terms as they are entity references we could test against.
+  drush $DRUSH_ALIAS generate-terms tags 4
+
   # Generate a node + comment
   drush $DRUSH_ALIAS generate-content --types=article 2 3
 
   shift
 fi
 
-##  - rest-set : enable the rest module disable the hal module and load config
-if [ "$1" == "rest-set" ]; then
-  drush $DRUSH_ALIAS --yes pm-enable rest
-  drush $DRUSH_ALIAS --yes pm-uninstall hal
+##  - rest-resources :    Enable the modules and load config providing the ReST API's HAL and json.
+if [ "$1" == "rest-resources" ]; then
+  drush $DRUSH_ALIAS --yes pm-enable hal
 
   cat ./rest.yml | drush $DRUSH_ALIAS config-set --yes --format=yaml rest.settings resources.entity -
   drush $DRUSH_ALIAS cache-rebuild
@@ -153,17 +154,7 @@ if [ "$1" == "rest" ]; then
   shift
 fi
 
-##  - hal-set : enable the hal module and load config
-if [ "$1" == "hal-set" ]; then
-  drush $DRUSH_ALIAS --yes pm-enable hal
-
-  cat ./hal.yml | drush $DRUSH_ALIAS config-set --yes --format=yaml rest.settings resources.entity -
-  drush $DRUSH_ALIAS cache-rebuild
-
-  shift
-fi
-
-##  - hal : set the accept header
+##  - hal :               Set Accept-header ti hal+json.
 if [ "$1" == "hal" ]; then
   ACCEPT_HEADER=$HAL_HEADER
   MODULE_NAME="hal"
@@ -179,7 +170,7 @@ if [ "$1" == "perms" ]; then
 
     drush $DRUSH_ALIAS role-add-perm "$role" "create article content" "edit any article content" "delete any article content"
 
-    for entity in "node" "comment" "user"; do
+    for entity in "node" "comment" "user" "taxonomy_term" ; do
       drush $DRUSH_ALIAS role-add-perm "$role" "restful get entity:$entity" "restful post entity:$entity" "restful delete entity:$entity" "restful patch entity:$entity"
     done
   done
