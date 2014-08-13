@@ -168,11 +168,12 @@ if [ "$1" == "perms" ]; then
 
   for role in "anonymous" "administrator"; do
 
-    drush $DRUSH_ALIAS role-add-perm "$role" "create article content" "edit any article content" "delete any article content"
+    ROLES="create article content,edit any article content,delete any article content"
 
     for entity in "node" "comment" "user" "taxonomy_term" ; do
-      drush $DRUSH_ALIAS role-add-perm "$role" "restful get entity:$entity" "restful post entity:$entity" "restful delete entity:$entity" "restful patch entity:$entity"
+      ROLES="$ROLES,restful get entity:$entity,restful post entity:$entity,restful delete entity:$entity,restful patch entity:$entity"
     done
+    drush $DRUSH_ALIAS role-add-perm $role "$ROLES"
   done
 
   shift
