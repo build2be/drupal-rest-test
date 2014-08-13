@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if [ ! -f ./rest.ini ] ; then
+  echo "No INI file found."
+  echo "- Please copy rest.ini.dist to rest.ini and make sure it fits your config."
+  exit
+fi
 source ./rest.ini
 
 # Enable command echo
