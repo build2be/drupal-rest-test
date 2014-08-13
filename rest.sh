@@ -24,8 +24,10 @@ RESOURCE_nodes=nodes
 # TODO: add resources for
 # taxonomy=taxonomy/term/1
 
-# Only show help when no arguments found
+# Only show help when no arguments found or unknown command
 ARGS=$#
+
+echo "Running: $1"
 
 # Define some macros
 
