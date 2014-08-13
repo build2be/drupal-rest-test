@@ -1,0 +1,7 @@
+[users]
+user-0=0/0
+user-1=admin/admin
+
+[tasks]
+task-1={"node":{"url":"node\/1","field":"title","value":"test","type":"\/rest\/type\/node\/article"}}
+task-2={"node":{"url":"node\/2","field":"title","value":"test","type":"\/rest\/type\/node\/article"}}

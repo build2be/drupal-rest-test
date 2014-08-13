@@ -1,4 +1,5 @@
 *.yml
+*.ini
 rest.config
 data/
 vendor/

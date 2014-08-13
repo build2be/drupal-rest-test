@@ -1,5 +1,5 @@
 # Drupal 8 drush alias
-DRUSH_ALIAS="drupal.d8"
+DRUSH_ALIAS="@drupal.d8"
 # DRUSH_ALIAS="--url=http://drupal.d8 --root=path-to-drupal-8
 
 # Uncomment when needing verbose info into
@@ -12,17 +12,17 @@ URL=http://drupal.d8
 # PACKAGE_HANDLER="--package-handler=git_drupalorg"
 PACKAGE_HANDLER=""
 
-CURL_USER="admin:admin"
-
-
-
-# Rest server
-URL=http://drupal.d8
-
-PACKAGE_HANDLER="--package-handler=git_drupalorg"
-
 # admin user used to configure drupal
 USER_1="admin:admin"
 
-# alternative curl user
 CURL_USER="admin:admin"
+
+# what to use for pretty print: cat, json_pp, pjson, prettyjson
+JSON_PRETTY_PRINT=cat
+
+# resources
+RESOURCE_node=node/1
+RESOURCE_user=user/1
+RESOURCE_comment=comment/1
+RESOURCE_file=entity/file/1
+

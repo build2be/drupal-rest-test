@@ -18,6 +18,19 @@ $config = array(
   )
 );
 
+$ini = parse_ini_file("rest.ini", true);
+$patch = parse_ini_file("patch.ini", true);
+
+
+$ini['patch']['users'] = explode(":",$ini['patch']['users']);
+
+$config['url'] = $ini['URL'];
+$config['username'] = $ini['patch']['user'];
+
+var_dump($ini);
+echo json_encode($config);
+return;
+
 function buildPayload($config, $task)
 {
     $payload = array();
