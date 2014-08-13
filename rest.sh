@@ -71,7 +71,7 @@ fi
 
 ##  - install :           Reinstall drupal enable modules and setup config
 if [ "$1" == "install" ]; then
-  drush $DRUSH_ALIAS --yes site-install
+  drush $DRUSH_ALIAS --yes --notify site-install
 
   # TODO: split this into enable?
   drush $DRUSH_ALIAS user-password $USER_1_NAME --password=$USER_1_PASS
