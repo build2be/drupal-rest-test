@@ -175,20 +175,10 @@ if [ "$1" == "perms" ]; then
 
   for role in "anonymous" "administrator"; do
 
-    # Waiting for https://github.com/drush-ops/drush/pull/740
-    # drush $DRUSH_ALIAS role-add-perm "$role" "create article content" "edit any article content" "delete any article content"
-
-    for perm in "create article content" "edit any article content" "delete any article content"; do
-      drush $DRUSH_ALIAS role-add-perm "$role" "$perm"
-    done
+    drush $DRUSH_ALIAS role-add-perm "$role" "create article content" "edit any article content" "delete any article content"
 
     for entity in "node" "comment" "user"; do
-      # Waiting for https://github.com/drush-ops/drush/pull/740
-      # drush $DRUSH_ALIAS role-add-perm "$role" "restful get entity:$entity" "restful post entity:$entity" "restful delete entity:$entity" "restful patch entity:$entity"
-
-      for perm in "restful get entity:$entity" "restful post entity:$entity" "restful delete entity:$entity" "restful patch entity:$entity"; do
-        drush $DRUSH_ALIAS role-add-perm "$role" "$perm"
-      done
+      drush $DRUSH_ALIAS role-add-perm "$role" "restful get entity:$entity" "restful post entity:$entity" "restful delete entity:$entity" "restful patch entity:$entity"
     done
   done
 
