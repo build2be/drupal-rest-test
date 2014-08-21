@@ -22,13 +22,6 @@ USER_1_PASS=`echo $USER_1 | cut -d: -f2`
 CURL_USERNAME=`echo $CURL_USER | cut -d: -f1`
 CURL_PASSWORD=`echo $CURL_USER | cut -d: -f2`
 
-# depends on https://www.drupal.org/node/2100637
-# Needs a rest views display on /node
-RESOURCE_nodes=nodes
-
-# TODO: add resources for
-# taxonomy=taxonomy/term/1
-
 # Only show help when no arguments found or unknown command
 ARGS=$#
 
@@ -38,21 +31,23 @@ echo "Running: $1"
 
 ## ALIAS ##  - full-install :      Quickly installs and configures an empty site for HAL and query for content
 if [ "$1" == "full-install" ]; then
-  $0 install install-modules generate-content rest-resources perms
+  $0 install install-modules enable-modules generate-content rest-resources perms
   $0 hal-content
   $0 hal-content-anon
+  $0 rest-content
+  $0 rest-content-anon
   exit;
 fi
 
 ## ALIAS ##  - hal-content :       Query as admin for all HAL configured content
 if [ "$1" == "hal-content" ]; then
-  $0 hal nodes node comment user
+  $0 hal nodes node comment user file
   exit;
 fi
 
 ## ALIAS ##  - hal-content-anon :  Query as anonymous for all HAL configured content
 if [ "$1" == "hal-content-anon" ]; then
-  $0 hal anon nodes node comment user
+  $0 hal anon nodes node comment user file
   exit;
 fi
 
@@ -64,13 +59,13 @@ fi
 
 ## ALIAS ##  - rest-content :      Query as $CURL_USERNAME for all rest configured content
 if [ "$1" == "rest-content" ]; then
-  $0 rest nodes node comment user
+  $0 rest nodes node comment user file
   exit;
 fi
 
 ## ALIAS ##  - rest-content-anon : Query as anonymous for all rest configured content
 if [ "$1" == "rest-content-anon" ]; then
-  $0 rest anon nodes node comment user
+  $0 rest anon nodes node comment user file
   exit;
 fi
 
@@ -94,14 +89,22 @@ if [ "$1" == "install-modules" ]; then
 
   drush $DRUSH_ALIAS --yes dl $PACKAGE_HANDLER oauth
 
+  shift
+fi
+
+##  - install-modules :   Install contrib modules: devel rest_ui oauth
+if [ "$1" == "enable-modules" ]; then
+
   # defaults according to /core/modules/rest/config/install
   drush $DRUSH_ALIAS --yes pm-enable rest hal basic_auth
 
   # enable helpers
   drush $DRUSH_ALIAS --yes pm-enable devel_generate
 
+  drush $DRUSH_ALIAS --yes pm-enable simpletest
+
   # broken: https://www.drupal.org/node/2316445
-  # drush $DRUSH_ALIAS --yes restui
+  drush $DRUSH_ALIAS --yes pm-enable restui
 
   shift
 fi
@@ -231,6 +234,7 @@ fi
 ##  - user :              Query for a user resource
 for entity in "nodes" "node" "comment" "user" "file" ; do
   if [ "$1" == "$entity" ]; then
+    echo ""
     echo "========================"
     NAME="RESOURCE_$1"
     RESOURCE=${!NAME}

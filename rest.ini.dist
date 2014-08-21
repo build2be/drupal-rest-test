@@ -17,12 +17,17 @@ USER_1="admin:admin"
 
 CURL_USER="admin:admin"
 
-# what to use for pretty print: cat, json_pp, pjson, prettyjson
+# Where to pipe using pretty print: cat, json_pp, pjson, prettyjson
 JSON_PRETTY_PRINT=cat
 
 # resources
 RESOURCE_node=node/1
 RESOURCE_user=user/1
 RESOURCE_comment=comment/1
+
+# Depends on https://www.drupal.org/node/2310307
 RESOURCE_file=entity/file/1
 
+# Depends on https://www.drupal.org/node/2100637
+# Needs a rest views display on /node
+RESOURCE_nodes=node
