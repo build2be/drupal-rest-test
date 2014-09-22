@@ -227,6 +227,15 @@ if [ "$1" == "anon" ]; then
   shift
 fi
 
+##  - lang :              Swith to language
+LANG=en
+if [ "$1" == "lang" ]; then
+  shift
+  LANG=$1
+  shift
+fi
+
+
 # When adding new entity make sure to add it's RESOURCE_ above
 ##  - nodes :             Query the configured views is successful. FIXME
 ##  - node :              Query for a node resource
@@ -239,8 +248,14 @@ for entity in "nodes" "node" "comment" "user" "file" ; do
     NAME="RESOURCE_$1"
     RESOURCE=${!NAME}
     FILE_NAME=./data/${MODULE_NAME}-$1.json
-    echo "curl --user $CURL_USER --header "\"$ACCEPT_HEADER\"" --request GET $URL/$RESOURCE"
-    curl --user $CURL_USER --header "$ACCEPT_HEADER" --request GET $URL/$RESOURCE > $FILE_NAME
+    set -x
+    curl \
+      --user $CURL_USER \
+      --header "$ACCEPT_HEADER" \
+      --header "Accept-Language: $LANG" \
+      --header "Content-Language: $LANG" \
+      --request GET $URL/$RESOURCE > $FILE_NAME
+    set +x
     echo ============ RESPONSE : $RESOURCE ============
     cat $FILE_NAME | $JSON_PRETTY_PRINT
     echo ""
