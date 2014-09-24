@@ -92,7 +92,7 @@ if [ "$1" == "install-modules" ]; then
   shift
 fi
 
-##  - install-modules :   Install contrib modules: devel rest_ui oauth
+##  - enable-modules    : Enable contrib modules: devel rest_ui oauth
 if [ "$1" == "enable-modules" ]; then
 
   # defaults according to /core/modules/rest/config/install
@@ -109,7 +109,7 @@ if [ "$1" == "enable-modules" ]; then
   shift
 fi
 
-##  - install-config :    Copies the .dist files
+##  - install-config    : Copies the .dist files
 if [ "$1" == "install-config" ]; then
   [ -f ./rest.yml ] || cp ./rest.yml.dist ./rest.yml
   [ -f ./views.view.rest_nodes.yml ] || cp ./views.view.rest_nodes.yml.dist ./views.view.rest_nodes.yml
