@@ -26,6 +26,28 @@ Requirements
 #. You need to know how to write `Drush aliases <http://drush.ws/examples/example.aliases.drushrc.php>`_
      ``$ vi ~/.drush/drupal.aliases.drushrc.php``
 
+.. code:: php
+$aliases['d8'] = array (
+  'root' => '/Users/clemens/Sites/drupal/d8/www',
+  'uri' => 'http://drupal.d8',
+  'databases' =>
+  array (
+    'default' =>
+    array (
+      'default' =>
+      array (
+        'database' => 'drupal_d8',
+        'username' => 'drupal_d8',
+        'password' => 'drupal_d8',
+        'host' => 'localhost',
+        'port' => '',
+        'driver' => 'mysql',
+        'prefix' => '',
+      ),
+    ),
+  ),
+);
+
 How to install
 =======
 
