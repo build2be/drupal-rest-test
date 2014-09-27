@@ -24,6 +24,7 @@ resources:
         - json
       supported_auth:
         - basic_auth
+# https://www.drupal.org/node/2344151
   'entity:comment':
     GET:
       supported_formats:
@@ -74,31 +75,6 @@ resources:
         - json
       supported_auth:
         - basic_auth
-  'entity:taxonomy_term':
-    GET:
-      supported_formats:
-        - hal_json
-        - json
-      supported_auth:
-        - basic_auth
-    POST:
-      supported_formats:
-        - hal_json
-        - json
-      supported_auth:
-        - basic_auth
-    DELETE:
-      supported_formats:
-        - hal_json
-        - json
-      supported_auth:
-        - basic_auth
-    PATCH:
-      supported_formats:
-        - hal_json
-        - json
-      supported_auth:
-        - basic_auth
   'entity:file':
     GET:
       supported_formats:
@@ -124,3 +100,18 @@ resources:
         - json
       supported_auth:
         - basic_auth
+# Expose Config Entities (only get as other access seems political incorrect)
+'entity:taxonomy_term':
+  GET:
+    supported_formats:
+      - hal_json
+      - json
+    supported_auth:
+      - basic_auth
+'entity:menu':
+  GET:
+    supported_formats:
+      - hal_json
+      - json
+    supported_auth:
+      - basic_auth
