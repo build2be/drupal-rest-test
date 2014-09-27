@@ -56,6 +56,11 @@ How to install
 * Copy the rest.config.dist to rest.config
 * Edit rest.config and set DRUSH_ALIAS and URL to your system config.
 
+Install HAL browser
+=======
+
+To test HAL navigation install https://github.com/mikekelly/hal-browser
+
 Command line options
 ====
 
