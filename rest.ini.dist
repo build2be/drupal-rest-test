@@ -19,6 +19,7 @@ CURL_USER="admin:admin"
 
 # Where to pipe using pretty print: cat, json_pp, pjson, prettyjson
 JSON_PRETTY_PRINT=cat
+# JSON_PRETTY_PRINT=json_pp
 
 # resources
 RESOURCE_node=node/1
@@ -31,3 +32,6 @@ RESOURCE_file=entity/file/1
 # Depends on https://www.drupal.org/node/2100637
 # Needs a rest views display on /node
 RESOURCE_nodes=node
+
+# Depends on https://www.drupal.org/node/2300677
+RESOURCE_vocabulary=entity/taxonomy_vocabulary
