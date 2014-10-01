@@ -5,6 +5,7 @@ if [ ! -f ./rest.ini ] ; then
   echo "- Please copy rest.ini.dist to rest.ini and make sure it fits your config."
   exit
 fi
+[ -d ./data ] || mkdir ./data
 source ./rest.ini
 
 # Enable command echo
@@ -114,7 +115,6 @@ if [ "$1" == "install-config" ]; then
   [ -f ./rest.yml ] || cp ./rest.yml.dist ./rest.yml
   [ -f ./views.view.rest_nodes.yml ] || cp ./views.view.rest_nodes.yml.dist ./views.view.rest_nodes.yml
 
-  [ -d ./data ] || mkdir ./data
   shift
 fi
 
