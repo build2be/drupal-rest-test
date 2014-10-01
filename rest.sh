@@ -155,6 +155,8 @@ if [ "$1" == "rest-resources" ]; then
   shift
 fi
 
+MODULE_NAME="hal"
+
 ##  - rest :              Set Accept-header to json.
 if [ "$1" == "rest" ]; then
   ACCEPT_HEADER=$JSON_HEADER
@@ -223,7 +225,8 @@ fi
 
 ##  - anon :              Swith to anonymous user which may not view profile
 if [ "$1" == "anon" ]; then
-  CURL_USER="anonymous:"
+  CURL_USERNAME="anonymous"
+  CURL_PASSWORD=""
   shift
 fi
 
@@ -247,7 +250,7 @@ for entity in "nodes" "node" "comment" "user" "file" ; do
     echo "========================"
     NAME="RESOURCE_$1"
     RESOURCE=${!NAME}
-    FILE_NAME=./data/${MODULE_NAME}-$1.json
+    FILE_NAME=./data/${CURL_USERNAME}-${MODULE_NAME}-$1.json
     set -x
     curl \
       --user $CURL_USER \
