@@ -32,7 +32,7 @@ echo "Running: $1"
 
 ## ALIAS ##  - full-install :      Quickly installs and configures an empty site for HAL and query for content
 if [ "$1" == "full-install" ]; then
-  $0 install install-modules enable-modules generate-content rest-resources perms
+  $0 install install-modules enable-modules install-config generate-content rest-resources perms
   $0 hal-content
   $0 hal-content-anon
   $0 rest-content
