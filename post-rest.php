@@ -4,8 +4,11 @@ require 'vendor/autoload.php';
 
 use Guzzle\Http\Client;
 
+$iniConfig = parse_ini_file(__DIR__ . '/rest.ini', false, INI_SCANNER_RAW);
+
+
 $config = array(
-  'url' => "http://d8.dev",
+  'url' => $iniConfig['URL'],
   'username' => "admin",
   'password' => "admin",
   'post' => array(
