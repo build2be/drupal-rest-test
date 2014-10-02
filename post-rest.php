@@ -24,7 +24,6 @@ $config = array(
 function buildPayload($config, $task)
 {
     $payload = array();
-    $payload['_links']['type']['href'] = $config['url'] . $config['post'][$task]['type'];
     foreach ($config['post'][$task]['fields'] as $key => $value) {
         $payload[$key] = array($value);
     }
