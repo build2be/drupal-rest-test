@@ -41,12 +41,23 @@ function post($url, $headers, $payload)
         echo $key . ': ' . $value . PHP_EOL;
     }
     echo PHP_EOL;
-    echo json_encode(json_decode($payload, true), JSON_PRETTY_PRINT).PHP_EOL;
+    echo json_encode(json_decode($payload, true), JSON_PRETTY_PRINT) . PHP_EOL;
     echo '--------------------' . PHP_EOL;
 
     $response = $client->post($url, $headers, $payload)
         ->setAuth($config['username'], $config['password'])
         ->send();
+    echo 'Status Code: ' . $response->getStatusCode() . PHP_EOL;
+    foreach ($response->getHeaders() as $key => $value) {
+        echo $key . ': ' . $value . PHP_EOL;
+    }
+    echo PHP_EOL;
+    $contentType = $response->getContentType();
+    if(strpos($contentType, 'json') !== false){
+        echo json_encode(json_decode($response->getBody(true), true), JSON_PRETTY_PRINT) . PHP_EOL;
+    }else{
+        echo $response->getBody(true);
+    }
     return $response;
 }
 
@@ -57,8 +68,6 @@ foreach ($config['post'] as $taskname => $task) {
     $headers['Content-type'] = 'application/json';
     $response = post('' . $taskname, $headers, $payload);
 
-    echo 'created ' . $taskname . PHP_EOL;
-    echo 'Response status: ' . $response->getStatusCode() . PHP_EOL;
     if ($response->getStatusCode() > 299 || $response->getStatusCode() < 200) {
         echo 'Response: ' . PHP_EOL;
         try {
