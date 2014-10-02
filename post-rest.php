@@ -4,8 +4,7 @@ require 'vendor/autoload.php';
 
 use Guzzle\Http\Client;
 
-// TODO: filter out the bash comments before reading.
-$iniConfig = parse_ini_file(__DIR__ . '/rest.ini', false, INI_SCANNER_RAW);
+$iniConfig = @parse_ini_file(__DIR__ . '/rest.ini', false, INI_SCANNER_RAW);
 
 
 $config = array(
