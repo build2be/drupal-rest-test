@@ -71,5 +71,5 @@ foreach ($config['post'] as $taskname => $task) {
     $payload = buildPayload($config, $taskname);
     $headers = array();
     $headers['Content-type'] = 'application/json';
-    post($task['endpoint'], $headers, $payload);
+    post($task['endpoint'] . "?XDEBUG_SESSION_START=10938", $headers, $payload);
 }
