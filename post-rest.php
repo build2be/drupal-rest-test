@@ -17,7 +17,8 @@ $config = array(
             'fields' => array(
                 'title' => 'test',
             ),
-            'type' => '/rest/type/node/article'
+            'type' => '/rest/type/node/article',
+            'endpoint' => 'entity/node',
         )
     )
 );
@@ -70,5 +71,5 @@ foreach ($config['post'] as $taskname => $task) {
     $payload = buildPayload($config, $taskname);
     $headers = array();
     $headers['Content-type'] = 'application/json';
-    post('entity/' . $taskname, $headers, $payload);
+    post($task['endpoint'], $headers, $payload);
 }
