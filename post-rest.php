@@ -44,19 +44,22 @@ function post($url, $headers, $payload)
     echo PHP_EOL;
     echo json_encode(json_decode($payload, true), JSON_PRETTY_PRINT) . PHP_EOL;
     echo '--------------------' . PHP_EOL;
-
-    $response = $client->post($url, $headers, $payload)
-        ->setAuth($config['username'], $config['password'])
-        ->send();
+    try {
+        $response = $client->post($url, $headers, $payload)
+            ->setAuth($config['username'], $config['password'])
+            ->send();
+    } catch (\Guzzle\Http\Exception\ClientErrorResponseException $e) {
+        $response = $e->getResponse();
+    }
     echo 'Status Code: ' . $response->getStatusCode() . PHP_EOL;
     foreach ($response->getHeaders() as $key => $value) {
         echo $key . ': ' . $value . PHP_EOL;
     }
     echo PHP_EOL;
     $contentType = $response->getContentType();
-    if(strpos($contentType, 'json') !== false){
+    if (strpos($contentType, 'json') !== false) {
         echo json_encode(json_decode($response->getBody(true), true), JSON_PRETTY_PRINT) . PHP_EOL;
-    }else{
+    } else {
         echo $response->getBody(true);
     }
     return $response;
@@ -67,18 +70,5 @@ foreach ($config['post'] as $taskname => $task) {
     $payload = buildPayload($config, $taskname);
     $headers = array();
     $headers['Content-type'] = 'application/json';
-    $response = post('' . $taskname, $headers, $payload);
-
-    if ($response->getStatusCode() > 299 || $response->getStatusCode() < 200) {
-        echo 'Response: ' . PHP_EOL;
-        try {
-            echo "Success:" . PHP_EOL;
-            $body = json_decode($response->getBody(), true);
-            $body = print_r($body, true);
-            echo $body;
-        } catch (Exception $e) {
-            echo "Failure:" . PHP_EOL;
-            echo $response->getBody();
-        }
-    }
+    post('entity/' . $taskname, $headers, $payload);
 }
