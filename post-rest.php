@@ -42,7 +42,7 @@ function post($url, $headers, $payload)
         echo $key . ': ' . $value . PHP_EOL;
     }
     echo PHP_EOL;
-    echo $payload.PHP_EOL;
+    echo json_encode(json_decode($payload, true), JSON_PRETTY_PRINT).PHP_EOL;
     echo '--------------------' . PHP_EOL;
 
     $response = $client->post($url, $headers, $payload)
