@@ -15,9 +15,30 @@ $config = array(
     'node' => array(
       'fields' => array(
         'title' => 'test',
-        'type' => array('value' => 'article'),
+        'type' => array(
+          array(
+            'value' => 'article',
+          ),
+        ),
       ),
       'endpoint' => 'entity/node',
+    ),
+    'comment' => array(
+      'fields' => array(
+        'entity_type' => 'node',
+        'field_name' => 'comment',
+        'entity_id' => array(
+          array(
+            'target_id' => 1,
+          ),
+        ),
+        'comment_body' => array(
+          array(
+            'value' => 'Example comment message.',
+          ),
+        ),
+      ),
+      'endpoint' => 'entity/comment',
     )
   )
 );
@@ -26,7 +47,7 @@ function buildPayload($config, $task)
 {
     $payload = array();
     foreach ($config['post'][$task]['fields'] as $key => $value) {
-        $payload[$key] = array($value);
+        $payload[$key] = $value;
     }
     return json_encode($payload);
 }
