@@ -13,6 +13,10 @@ function patch($url, $headers, $payload)
     http('PATCH', $url, $headers, $payload);
 }
 
+function delete($url, $headers, $payload){
+    http('DELETE', $url, $headers, $payload);
+}
+
 function http($method, $url, $headers, $payload)
 {
     global $config;
