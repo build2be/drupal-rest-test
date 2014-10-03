@@ -15,10 +15,24 @@ $config = array(
     'node' => array(
       'fields' => array(
         'title' => 'test',
-        'type' => array('value' => 'article'),
       ),
       'type' => '/rest/type/node/article',
       'endpoint' => 'entity/node',
+    ),
+    'comment' => array(
+      'relations' => array(
+        'http://d8.dev/rest/relation/comment/comment/entity_id' => array(
+          'href' => 'http://d8.dev/node/1',
+          'fields' => array(
+            'uuid' => 'af3710e7-fec3-4064-b500-b30d838236f5'
+          ))
+      ),
+      'type' => '/rest/type/comment/comment',
+      'fields' => array(
+        'entity_type' => 'node',
+        'comment_body' => 'test',
+      ),
+      'endpoint' => 'entity/comment',
     )
   )
 );
@@ -28,6 +42,12 @@ function buildPayload($config, $task)
     $payload = array();
     foreach ($config['post'][$task]['fields'] as $key => $value) {
         $payload[$key] = array($value);
+    }
+    foreach ($config['post'][$task]['relations'] as $key => $value) {
+        $payload['_links'][$key][]['href'] = $value['href'];
+        $payload['_embedded'][$key] = array(
+          $value['fields']
+        );
     }
     $payload['_links']['type']['href'] = $config['url'] . $config['post'][$task]['type'];
     return json_encode($payload);
