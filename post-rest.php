@@ -6,6 +6,9 @@ require 'common.php';
 
 $iniConfig = @parse_ini_file(__DIR__ . '/rest.ini', false, INI_SCANNER_RAW);
 
+if(isset($_SERVER['XDEBUG_CONFIG'])){
+    $argv[1] = end(explode('=', $_SERVER['XDEBUG_CONFIG']));
+}
 
 $config = array(
   'url' => $iniConfig['URL'],
