@@ -1,18 +1,24 @@
 <?php
-
-require 'vendor/autoload.php';
-
+require_once 'vendor/autoload.php';
 use Guzzle\Http\Client;
 
+require 'common.php';
+
+$iniConfig = @parse_ini_file(__DIR__ . '/rest.ini', false, INI_SCANNER_RAW);
+
+
 $config = array(
-  'url' => "http://d8.dev",
+  'url' => $iniConfig['URL'],
   'username' => "admin",
   'password' => "admin",
   'post' => array(
     'node' => array(
-      'field' => 'title',
-      'value' => 'test',
-      'type' => '/rest/type/node/article'
+      'fields' => array(
+        'title' => 'test',
+        'type' => array('value' => 'article'),
+      ),
+      'type' => '/rest/type/node/article',
+      'endpoint' => 'entity/node',
     )
   )
 );
@@ -20,30 +26,20 @@ $config = array(
 function buildPayload($config, $task)
 {
     $payload = array();
+    foreach ($config['post'][$task]['fields'] as $key => $value) {
+        $payload[$key] = array($value);
+    }
     $payload['_links']['type']['href'] = $config['url'] . $config['post'][$task]['type'];
-    $payload[$config['post'][$task]['field']] = array($config['post'][$task]['value']);
     return json_encode($payload);
 }
 
-$client = new Client($config['url']);
 foreach ($config['post'] as $taskname => $task) {
     $payload = buildPayload($config, $taskname);
     $headers = array();
     $headers['Content-type'] = 'application/hal+json';
-    $response = $client->post('entity/' . $taskname, $headers, $payload)
-      ->setAuth($config['username'], $config['password'])
-      ->send();
-
-    echo 'created ' . $taskname . PHP_EOL;
-    echo 'Response status: ' . $response->getStatusCode() . PHP_EOL;
-    if ($response->getStatusCode() > 299 || $response->getStatusCode() < 200) {
-        echo 'Response body: ' . PHP_EOL;
-        try {
-            $body = json_decode($response->getBody(), true);
-            $body = print_r($body, true);
-            echo $body;
-        } catch (Exception $e) {
-            echo $response->getBody();
-        }
+    $url = $task['endpoint'];
+    if ($argc == 2) {
+        $url .= '?XDEBUG_SESSION_START=' . $argv[1];
     }
+    post($url, $headers, $payload);
 }
