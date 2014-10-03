@@ -17,7 +17,6 @@ $config = array(
                 'title' => 'test',
                 'type' => array('value' => 'article'),
             ),
-            'type' => '/rest/type/node/article',
             'endpoint' => 'entity/node',
         )
     )
