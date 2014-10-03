@@ -22,6 +22,8 @@ function post($url, $headers, $payload)
           ->send();
     } catch (\Guzzle\Http\Exception\ClientErrorResponseException $e) {
         $response = $e->getResponse();
+    } catch (\Guzzle\Http\Exception\ServerErrorResponseException $e) {
+        $response = $e->getResponse();
     }
     echo 'Status Code: ' . $response->getStatusCode() . PHP_EOL;
     foreach ($response->getHeaders() as $key => $value) {
