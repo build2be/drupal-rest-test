@@ -53,8 +53,8 @@ How to install
 =======
 
 * Checkout this REPO
-* Copy the rest.config.dist to rest.config
-* Edit rest.config and set DRUSH_ALIAS and URL to your system config.
+* Run ./rest.sh
+* Follow the instructions.
 
 Install HAL browser
 =======
