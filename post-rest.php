@@ -15,7 +15,7 @@ $config = array(
         'node' => array(
             'fields' => array(
                 'title' => 'test',
-                'entity_type' => 'article'
+                'type' => array('value' => 'article'),
             ),
             'type' => '/rest/type/node/article',
             'endpoint' => 'entity/node',
