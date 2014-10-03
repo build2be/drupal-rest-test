@@ -13,7 +13,8 @@ function patch($url, $headers, $payload)
     http('PATCH', $url, $headers, $payload);
 }
 
-function delete($url, $headers, $payload){
+function delete($url, $headers, $payload)
+{
     http('DELETE', $url, $headers, $payload);
 }
 
@@ -51,4 +52,11 @@ function http($method, $url, $headers, $payload)
         echo $response->getBody(true);
     }
     return $response;
+}
+
+function randomString($length)
+{
+    return join('', array_map(function () {
+        return substr('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ   ', rand(0, 64), 1);
+    }, range(1, $length)));
 }
