@@ -46,17 +46,8 @@ $config = array(
   )
 );
 
-function buildPayload($config, $task)
-{
-    $payload = array();
-    foreach ($config['post'][$task]['fields'] as $key => $value) {
-        $payload[$key] = $value;
-    }
-    return json_encode($payload);
-}
-
 foreach ($config['post'] as $taskname => $task) {
-    $payload = buildPayload($config, $taskname);
+    $payload = json_encode($config['post'][$taskname]['fields']);
     $headers = array();
     $headers['Content-type'] = 'application/json';
     $url = $task['endpoint'];
