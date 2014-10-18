@@ -32,7 +32,7 @@ echo "Running: $1"
 
 ## ALIAS ##  - full-install      : Quickly installs and configures an empty site for HAL and query for content
 if [ "$1" == "full-install" ]; then
-  $0 install install-modules enable-modules install-config
+  $0 install install-modules enable-modules install-config views
   $0 generate-content rest-resources perms config
   $0 hal-content hal-content-anon
   $0 rest-content rest-content-anon
@@ -103,7 +103,6 @@ if [ "$1" == "enable-modules" ]; then
 
   drush $DRUSH_ALIAS --yes pm-enable simpletest
 
-  # broken: https://www.drupal.org/node/2316445
   drush $DRUSH_ALIAS --yes pm-enable restui
 
   shift
