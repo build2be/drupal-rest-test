@@ -30,7 +30,7 @@ echo "Running: $1"
 
 # Define some macros
 
-## ALIAS ##  - full-install :      Quickly installs and configures an empty site for HAL and query for content
+## ALIAS ##  - full-install      : Quickly installs and configures an empty site for HAL and query for content
 if [ "$1" == "full-install" ]; then
   $0 install install-modules enable-modules install-config
   $0 generate-content rest-resources perms config
@@ -39,25 +39,25 @@ if [ "$1" == "full-install" ]; then
   exit;
 fi
 
-## ALIAS ##  - hal-content :       Query as admin for all HAL configured content
+## ALIAS ##  - hal-content       : Query as admin for all HAL configured content
 if [ "$1" == "hal-content" ]; then
   $0 hal nodes node comment user file
   exit;
 fi
 
-## ALIAS ##  - hal-content-anon :  Query as anonymous for all HAL configured content
+## ALIAS ##  - hal-content-anon  : Query as anonymous for all HAL configured content
 if [ "$1" == "hal-content-anon" ]; then
   $0 hal anon nodes node comment user file
   exit;
 fi
 
-## ALIAS ##  - hal-9000 :          Generate 42 nodes
+## ALIAS ##  - hal-9000          : Generate 42 nodes
 if [ "$1" == "hal-9000" ]; then
   echo "I can't let you do that, $USER."
   exit;
 fi
 
-## ALIAS ##  - rest-content :      Query as $CURL_USERNAME for all rest configured content
+## ALIAS ##  - rest-content      : Query as $CURL_USERNAME for all rest configured content
 if [ "$1" == "rest-content" ]; then
   $0 rest nodes node comment user file
   exit;
@@ -69,7 +69,7 @@ if [ "$1" == "rest-content-anon" ]; then
   exit;
 fi
 
-##  - install :           Reinstall drupal enable modules and setup config
+##  - install           : Reinstall drupal enable modules and setup config
 if [ "$1" == "install" ]; then
   drush $DRUSH_ALIAS --yes --notify site-install
 
@@ -79,7 +79,7 @@ if [ "$1" == "install" ]; then
   shift
 fi
 
-##  - install-modules :   Install contrib modules: devel rest_ui oauth
+##  - install-modules   : Install contrib modules: devel rest_ui oauth
 if [ "$1" == "install-modules" ]; then
   # install helpers
   drush $DRUSH_ALIAS --yes dl $PACKAGE_HANDLER devel
@@ -117,9 +117,10 @@ if [ "$1" == "install-config" ]; then
   shift
 fi
 
-##  - views :             Tries to install a view for the 'nodes' FIXME
+##  - views             : Tries to install a view for the 'nodes' FIXME
 if [ "$1" == "views" ]; then
   echo "FIXME: $1"
+
   echo "Please load the view(s) manually."
   # TODO: somehow this is not loaded
   cat ./views.view.rest_nodes.yml | drush $DRUSH_ALIAS config-set --yes --format=yaml views.view rest_nodes -
@@ -130,7 +131,7 @@ if [ "$1" == "views" ]; then
   shift
 fi
 
-##  - generate-content :  Generated the needed data: users nodes comment
+##  - generate-content  : Generated the needed data: users nodes comment
 if [ "$1" == "generate-content" ]; then
 
   drush $DRUSH_ALIAS generate-users 3
@@ -144,7 +145,7 @@ if [ "$1" == "generate-content" ]; then
   shift
 fi
 
-##  - rest-resources :    Enable the modules and load config providing the ReST API's HAL and json.
+##  - rest-resources    : Enable the modules and load config providing the ReST API's HAL and json.
 if [ "$1" == "rest-resources" ]; then
   drush $DRUSH_ALIAS --yes pm-enable hal
 
@@ -156,21 +157,21 @@ fi
 
 MODULE_NAME="hal"
 
-##  - rest :              Set Accept-header to json.
+##  - rest              : Set Accept-header to json.
 if [ "$1" == "rest" ]; then
   ACCEPT_HEADER=$JSON_HEADER
   MODULE_NAME="rest"
   shift
 fi
 
-##  - hal :               Set Accept-header ti hal+json.
+##  - hal               : Set Accept-header ti hal+json.
 if [ "$1" == "hal" ]; then
   ACCEPT_HEADER=$HAL_HEADER
   MODULE_NAME="hal"
   shift
 fi
 
-##  - perms :             Set the known permissions for the exposed rest resources.
+##  - perms             : Set the known permissions for the exposed rest resources.
 if [ "$1" == "perms" ]; then
   echo "--------------------------------------"
   echo "Setting permissions"
@@ -188,7 +189,7 @@ if [ "$1" == "perms" ]; then
   shift
 fi
 
-##  - config :            Show the config and provides login URL
+##  - config            : Show the config and provides login URL
 if [ "$1" == "config" ]; then
   echo "--------------------------------------"
   echo "Settings:"
@@ -216,20 +217,20 @@ if [ "$1" == "config" ]; then
   shift
 fi
 
-##  - web :               Alias for drush user-login
+##  - web               : Alias for drush user-login
 if [ "$1" == "web" ]; then
   drush $DRUSH_ALIAS user-login admin admin/config/services/rest
   shift
 fi
 
-##  - anon :              Swith to anonymous user which may not view profile
+##  - anon              : Swith to anonymous user which may not view profile
 if [ "$1" == "anon" ]; then
   CURL_USERNAME="anonymous"
   CURL_PASSWORD=""
   shift
 fi
 
-##  - lang :              Swith to language
+##  - lang              : Swith to language
 LANG=en
 if [ "$1" == "lang" ]; then
   shift
@@ -239,10 +240,10 @@ fi
 
 
 # When adding new entity make sure to add it's RESOURCE_ above
-##  - nodes :             Query the configured views is successful. FIXME
-##  - node :              Query for a node resource
-##  - comment :           Query for a comment resource
-##  - user :              Query for a user resource
+##  - nodes             : Query the configured views is successful. FIXME
+##  - node              : Query for a node resource
+##  - comment           : Query for a comment resource
+##  - user              : Query for a user resource
 for entity in "nodes" "node" "comment" "user" "file" ; do
   if [ "$1" == "$entity" ]; then
     echo ""
