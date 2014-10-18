@@ -122,12 +122,16 @@ if [ "$1" == "views" ]; then
   echo "FIXME: $1"
 
   echo "Please load the view(s) manually."
+  drush $DRUSH_ALIAS user-login admin admin/config/development/configuration/single/import
+
+  echo "Trying to Adding Rest export display to front page"
   # TODO: somehow this is not loaded
-  cat ./views.view.rest_nodes.yml | drush $DRUSH_ALIAS config-set --yes --format=yaml views.view rest_nodes -
+  # TODO: remove --verbose when this is fixed
+  cat ./views.view.rest_nodes.yml | drush $DRUSH_ALIAS config-set --verbose --yes --format=yaml views.view rest_nodes -
 
   drush $DRUSH_ALIAS cache-rebuild
 
-  # TODO: remove comment to make processing work again.
+  drush $DRUSH_ALIAS user-login admin admin/structure/views/view/frontpage_rest
   shift
 fi
 
