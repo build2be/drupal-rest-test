@@ -186,7 +186,7 @@ if [ "$1" == "perms" ]; then
     for entity in "node" "comment" "user" "taxonomy_term" ; do
       ROLES="$ROLES,restful get entity:$entity,restful post entity:$entity,restful delete entity:$entity,restful patch entity:$entity"
     done
-    drush $DRUSH_ALIAS role-add-perm $role "$ROLES"
+    drush $DRUSH_ALIAS --notify role-add-perm $role "$ROLES"
   done
 
   shift
@@ -250,7 +250,7 @@ fi
 for entity in "nodes" "node" "comment" "user" "file" ; do
   if [ "$1" == "$entity" ]; then
     echo ""
-    echo "========================"
+    echo "========== $entity =============="
     NAME="RESOURCE_$1"
     RESOURCE=${!NAME}
     FILE_NAME=./data/${CURL_USERNAME}-${MODULE_NAME}-$1.json
