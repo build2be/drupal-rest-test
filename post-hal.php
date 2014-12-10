@@ -13,6 +13,7 @@ $config = array(
   'password' => "admin",
   'post' => array(
     'node' => array(
+      'relations' => array(),
       'fields' => array(
         'title' => 'test',
       ),
