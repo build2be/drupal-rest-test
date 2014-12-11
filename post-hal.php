@@ -6,9 +6,10 @@ require 'common.php';
 
 $iniConfig = @parse_ini_file(__DIR__ . '/rest.ini', false, INI_SCANNER_RAW);
 
+$server = $iniConfig['URL'];
 
 $config = array(
-  'url' => $iniConfig['URL'],
+  'url' => $server,
   'username' => "admin",
   'password' => "admin",
   'post' => array(
@@ -50,6 +51,11 @@ function buildPayload($config, $task)
           $value['fields']
         );
     }
+    if (isset($config['post'][$task]['links'])) {
+      foreach ($config['post'][$task]['links'] as $type => $link) {
+        $payload['_links'][$link][0]['href'] = $config['post'][$type]['location'];
+      }
+    }
     $payload['_links']['type']['href'] = $config['url'] . $config['post'][$task]['type'];
     return json_encode($payload);
 }
@@ -62,5 +68,10 @@ foreach ($config['post'] as $taskname => $task) {
     if ($argc == 2) {
         $url .= '?XDEBUG_SESSION_START=' . $argv[1];
     }
-    post($url, $headers, $payload);
+    $result = post($url, $headers, $payload);
+    // Store location for XRef ie attach comment to node
+    $location = $result->getHeader('location');
+    if ($location) {
+      $config['post'][$taskname]['location'] = $location . '';
+    }
 }
