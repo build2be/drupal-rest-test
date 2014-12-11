@@ -5,17 +5,17 @@ use Guzzle\Http\Client;
 
 function post($url, $headers, $payload)
 {
-    http('POST', $url, $headers, $payload);
+    return http('POST', $url, $headers, $payload);
 }
 
 function patch($url, $headers, $payload)
 {
-    http('PATCH', $url, $headers, $payload);
+    return http('PATCH', $url, $headers, $payload);
 }
 
 function delete($url, $headers, $payload)
 {
-    http('DELETE', $url, $headers, $payload);
+    return http('DELETE', $url, $headers, $payload);
 }
 
 function http($method, $url, $headers, $payload)
