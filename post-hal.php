@@ -16,7 +16,7 @@ $config = array(
     'node' => array(
       'relations' => array(),
       'fields' => array(
-        'title' => 'test',
+        'title' => randomString(30),
       ),
       'type' => '/rest/type/node/article',
       'endpoint' => 'entity/node',
@@ -32,6 +32,7 @@ $config = array(
       'type' => '/rest/type/comment/comment',
       'fields' => array(
         'entity_type' => 'node',
+        'subject' => randomString(30),
         'comment_body' => 'test',
       ),
       'endpoint' => 'entity/comment',

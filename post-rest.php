@@ -17,7 +17,7 @@ $config = array(
   'post' => array(
     'node' => array(
       'fields' => array(
-        'title' => 'test',
+        'title' => randomString(30),
         'type' => array(
           array(
             'value' => 'article',
@@ -35,6 +35,7 @@ $config = array(
             'target_id' => 1,
           ),
         ),
+        'subject' => randomString(30),
         'comment_body' => array(
           array(
             'value' => 'Example comment message.',
