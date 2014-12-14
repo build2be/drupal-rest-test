@@ -1,0 +1,27 @@
+{
+  {% if title %}
+  "title": [
+    "{{ title }}"
+  ],
+  {% endif %}
+
+  {% if body %}
+  "body" : "{{ body }}",
+  {% endif %}
+
+  "_links": {
+
+    {% if user or user == 0 %}
+    "http://drupal.d8/rest/relation/node/article/uid" : [
+    {
+      "href" : "http://drupal.d8/user/{{ user }}"
+    }
+    ],
+    {%  endif %}
+
+    "type": {
+      {# we need to escape URL #}
+      "href": "{{ url|replace({'/': '\\/'}) }}\/rest\/type\/{{ type }}\/{{ bundle }}"
+    }
+  }
+}
