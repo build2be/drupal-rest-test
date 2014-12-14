@@ -1,14 +1,15 @@
 {
-    "name": "build2be/drupal-rest-test",
-    "license": "MIT",
-    "type": "project",
-    "description": "Testing REST + HAL against Drupal",
-    "autoload": {
-        "psr-4": {
-            "": "src/"
-        }
-    },
-    "require": {
-      "guzzle/guzzle": "3.8.*@dev"
+  "name": "build2be/drupal-rest-test",
+  "license": "MIT",
+  "type": "project",
+  "description": "Testing REST + HAL against Drupal",
+  "autoload": {
+    "psr-4": {
+      "": "src/"
     }
+  },
+  "require": {
+    "guzzle/guzzle": "3.8.*@dev",
+    "twig/twig": "1.16.2"
+  }
 }
