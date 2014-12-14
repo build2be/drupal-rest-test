@@ -18,7 +18,7 @@ $c->setcontext(array(
     'url' => $url,
 ));
 $headers = array();
-$path = 'entity/node';
+$path = 'node';
 if ($argc == 2) {
     $c->setXDebug($argv[1]);
 }
@@ -32,12 +32,6 @@ $values = array(
     'bundle' => 'article',
     'user' => 0,
     'url' => $config['URL'],
-    'endpoint' => array(
-        'post' => 'entity/node',
-        'patch' => 'node',
-        'delete' => 'node',
-        'get' => 'node',
-    ),
 );
 
 //$c->setDebug(2);
@@ -47,13 +41,21 @@ $values = array(
 $c->setDebug(2);
 
 $c->setContentType('application/hal+json');
-$result = $c->post($path, $headers, $t->post($values, 'hal'));
+
+// Prepend 'entity/'
+// @see Bug https://www.drupal.org/node/2293697
+$result = $c->post('entity/' . $path, $headers, $t->post($values, 'hal'));
 
 // PATCH
 $location = '' . $result->getHeader('location');
 echo "Location: $location" . PHP_EOL;
-$patchPath = str_replace($url . '/entity/', '', $location);
-echo "Path: $patchPath" . PHP_EOL;
+
+// Scrub of entity/
+// @see Bug https://www.drupal.org/node/2293697
+$path = str_replace($url . '/entity/', '', $location);
+echo "Path: $path" . PHP_EOL;
 
 $values['title'] = 'Patched: ' . $t->randomString(20);
-$c->patch($patchPath, $headers, $t->post($values, 'hal'));
+$c->patch($path, $headers, $t->post($values, 'hal'));
+
+$c->delete($path, $headers, NULL);
