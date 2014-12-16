@@ -6,7 +6,9 @@
   {% endif %}
 
   {% if body %}
-  "body" : "{{ body }}",
+  "body" : {
+    "value" : "{{ body }}"
+  },
   {% endif %}
 
   "_links": {
