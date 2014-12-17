@@ -1,5 +1,17 @@
 <?php
 
+namespace Build2be\Drupal\Rest\Utility;
+
+use Twig_Autoloader;
+use Twig_Loader_Filesystem;
+use Twig_Environment;
+
+/**
+ * Class TwigToJson
+ * @package Build2be\Drupal\Rest\Utility
+ *
+ *
+ */
 class TwigToJson
 {
     function randomString($length)
@@ -18,7 +30,11 @@ class TwigToJson
     {
         Twig_Autoloader::register();
 
-        $this->_loader = new Twig_Loader_Filesystem('templates');
+        $path = array('src/templates');
+        if (is_dir('templ')) {
+            $path[] = 'templates';
+        }
+        $this->_loader = new Twig_Loader_Filesystem($path);
         $this->_twig = new Twig_Environment($this->_loader, array(//  'cache' => '/tmp/twig',
         ));
     }
@@ -33,6 +49,7 @@ class TwigToJson
         $type = $values['type'];
         $bundle = $values['bundle'] ?: null;
         $template = $encoding . '-' . $type . (isset($bundle) ? '-' . $bundle : '');
+        echo "Template: $template" . PHP_EOL;
         return $this->render($template, $values);
     }
 

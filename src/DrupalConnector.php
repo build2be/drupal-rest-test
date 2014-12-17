@@ -1,6 +1,6 @@
 <?php
 
-//namespace Drupal\Rest\Connector;
+namespace Build2be\Drupal\Rest;
 
 use Guzzle\Http\Client;
 
@@ -12,34 +12,51 @@ class DrupalConnector
     protected $_debug;
     protected $_xdebug;
     protected $_contentType;
+    protected $_accept = 'application/json';
 
-    public function setContext($context)
+    /**
+     * @param array $context
+     *   $context = array(
+     *     'url' => 'http://example.com',
+     *     'username' => 'restuser',
+     *     'password' => 'restpassword',
+     *   );
+     */
+    public function setContext(array $context)
     {
         $this->_context = $context;
     }
 
-    function post($url, $headers, $payload)
+    function get($url, $headers)
     {
-        return $this->http('POST', $url, $headers, $payload);
+        return $this->http('GET', $url, $headers, null);
     }
 
-    function patch($url, $headers, $payload)
+    function post($url, $headers, $body)
     {
-        return $this->http('PATCH', $url, $headers, $payload);
+        return $this->http('POST', $url, $headers, $body);
     }
 
-    function delete($url, $headers, $payload)
+    function patch($url, $headers, $body)
     {
-        return $this->http('DELETE', $url, $headers, $payload);
+        return $this->http('PATCH', $url, $headers, $body);
     }
 
-    function http($method, $url, $headers = array(), $payload)
+    function delete($url, $headers, $body)
+    {
+        return $this->http('DELETE', $url, $headers, $body);
+    }
+
+    function http($method, $url, $headers = array(), $body)
     {
         $server = $this->_context['url'];
         $client = new Client($server);
 
         if (!isset($headers['Content-type'])) {
             $headers['Content-type'] = $this->getContentType();
+        }
+        if (!isset($headers['Accept'])) {
+            $headers['Accept'] = $this->getAccept();
         }
 
         $debug = $this->getXDebug();
@@ -53,11 +70,11 @@ class DrupalConnector
                 echo $key . ': ' . $value . PHP_EOL;
             }
             echo PHP_EOL;
-            echo json_encode(json_decode($payload, true), JSON_PRETTY_PRINT) . PHP_EOL;
+            echo json_encode(json_decode($body, true), JSON_PRETTY_PRINT) . PHP_EOL;
             echo '--------------------' . PHP_EOL;
         }
         try {
-            $response = $client->createRequest($method, $url, $headers, $payload)
+            $response = $client->createRequest($method, $url, $headers, $body)
                 ->setAuth($this->_context['username'], $this->_context['password'])
                 ->send();
         } catch (\Guzzle\Http\Exception\ClientErrorResponseException $e) {
@@ -72,7 +89,7 @@ class DrupalConnector
             }
             echo PHP_EOL;
             $contentType = $response->getContentType();
-            if (strpos($contentType, 'json') !== false) {
+            if (strpos($contentType, 'application/jjson') !== false) {
                 echo json_encode(json_decode($response->getBody(true), true), JSON_PRETTY_PRINT) . PHP_EOL;
             } else {
                 echo $response->getBody(true);
@@ -112,5 +129,15 @@ class DrupalConnector
     function setContentType($contentType)
     {
         $this->_contentType = $contentType;
+    }
+
+    function getAccept()
+    {
+        return $this->_accept;
+    }
+
+    function setAccept($accept)
+    {
+        $this->_accept = $accept;
     }
 }
