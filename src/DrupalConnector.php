@@ -42,7 +42,7 @@ class DrupalConnector
         return $this->http('PATCH', $url, $headers, $body);
     }
 
-    function delete($url, $headers, $body)
+    function delete($url, $headers = null, $body = null)
     {
         return $this->http('DELETE', $url, $headers, $body);
     }
@@ -61,16 +61,35 @@ class DrupalConnector
 
         $debug = $this->getXDebug();
         if ($debug) {
-            $url .= '?' . $debug;
+            if (strpos($url, '?') === FALSE) {
+                $url .= '?';
+            }
+            else {
+                $url .= '&';
+            }
+            $url .= $debug;
         }
         if ($this->getDebug() > 1) {
-            echo '--------------------' . PHP_EOL;
+            echo '====================' . PHP_EOL;
             echo $method . ' /' . $url . PHP_EOL;
             foreach ($headers as $key => $value) {
                 echo $key . ': ' . $value . PHP_EOL;
             }
             echo PHP_EOL;
-            echo json_encode(json_decode($body, true), JSON_PRETTY_PRINT) . PHP_EOL;
+        }
+        $json =json_decode($body, true);
+        if ($this->getDebug() > 1) {
+            echo '--------------------' . PHP_EOL;
+            if ($json === NULL) {
+                echo "ERROR : Invalid JSON" . PHP_EOL;;
+                echo '--------------------' . PHP_EOL;
+                echo $body . PHP_EOL;
+            }
+            else {
+                echo json_encode($json) . PHP_EOL;
+                echo '--------------------' . PHP_EOL;
+                echo json_encode($json, JSON_PRETTY_PRINT) . PHP_EOL;
+            }
             echo '--------------------' . PHP_EOL;
         }
         try {
@@ -89,11 +108,12 @@ class DrupalConnector
             }
             echo PHP_EOL;
             $contentType = $response->getContentType();
-            if (strpos($contentType, 'application/jjson') !== false) {
-                echo json_encode(json_decode($response->getBody(true), true), JSON_PRETTY_PRINT) . PHP_EOL;
-            } else {
-                echo $response->getBody(true);
+            $body = $response->getBody(true);
+            if ((strpos($contentType, 'application/json') !== false) || (strpos($contentType, 'application/hal+json') !== false)) {
+                echo json_encode(json_decode($body, true), JSON_PRETTY_PRINT) . PHP_EOL;
             }
+            echo "------ RAW ------";
+            echo $body . PHP_EOL;
         }
         return $response;
     }

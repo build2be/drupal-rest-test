@@ -2,6 +2,8 @@
 
 require_once('vendor/autoload.php');
 
+use Build2be\Drupal\Rest\DrupalConnector;
+use Build2be\Drupal\Rest\Utility\TwigToJson;
 
 $config = @parse_ini_file('rest.ini', false, INI_SCANNER_RAW);
 
