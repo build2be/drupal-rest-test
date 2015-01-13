@@ -102,7 +102,7 @@ class DrupalConnector
             $response = $e->getResponse();
         }
         if ($this->getDebug() > 0) {
-            echo 'Status Code: ' . $response->getStatusCode() . PHP_EOL;
+            echo "Status: " . $response->getStatusCode() . ": " . $response->getReasonPhrase() . PHP_EOL;
             foreach ($response->getHeaders() as $key => $value) {
                 echo $key . ': ' . $value . PHP_EOL;
             }
@@ -112,9 +112,10 @@ class DrupalConnector
             if ((strpos($contentType, 'application/json') !== false) || (strpos($contentType, 'application/hal+json') !== false)) {
                 echo json_encode(json_decode($body, true), JSON_PRETTY_PRINT) . PHP_EOL;
             }
-            echo "------ RAW ------";
+            echo "------ RAW ------" . PHP_EOL;
             echo $body . PHP_EOL;
-        }
+            echo "------ /RAW -----" . PHP_EOL;
+          }
         return $response;
     }
 
