@@ -30,10 +30,11 @@ class TwigToJson
     {
         Twig_Autoloader::register();
 
-        $path = array('src/templates');
-        if (is_dir('templ')) {
+        $path = array();
+        if (is_dir('templates')) {
             $path[] = 'templates';
         }
+        $path[] = 'src/templates';
         $this->_loader = new Twig_Loader_Filesystem($path);
         $this->_twig = new Twig_Environment($this->_loader, array(//  'cache' => '/tmp/twig',
         ));

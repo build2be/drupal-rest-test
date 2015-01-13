@@ -1,8 +1,8 @@
-*.yml
-*.ini
-rest.config
-data/
-vendor/
-composer.lock
-.idea
+/*.yml
+/*.ini
+/rest.config
+/data/
+/vendor/
+/composer.lock
+/.idea
 /templates
