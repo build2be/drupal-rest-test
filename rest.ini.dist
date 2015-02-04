@@ -9,7 +9,7 @@ DRUSH_ALIAS="@drupal.d8"
 URL=http://drupal.d8
 
 # Use git package handler
-PACKAGE_HANDLER="--package-handler=git_drupalorg"
+PACKAGE_HANDLER="--package-handler=git_drupalorg --gitinfofile"
 # PACKAGE_HANDLER=""
 
 # admin user used to configure drupal
