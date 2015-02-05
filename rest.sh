@@ -79,7 +79,7 @@ if [ "$1" == "install" ]; then
   shift
 fi
 
-##  - install-modules   : Install contrib modules: devel rest_ui oauth
+##  - install-modules   : Completely reinstall! contrib modules: devel rest_ui oauth
 if [ "$1" == "install-modules" ]; then
   # install helpers
   drush $DRUSH_ALIAS --yes dl $PACKAGE_HANDLER devel
@@ -118,9 +118,11 @@ fi
 
 ##  - views             : Tries to install a view for the 'nodes' FIXME
 if [ "$1" == "views" ]; then
+  echo "=============================="
   echo "FIXME: $1"
-
-  echo "Please load the view(s) manually."
+  echo "-------------------------------"
+  echo "Please load the view manually."
+  echo "------------------------------"
   drush $DRUSH_ALIAS user-login admin admin/config/development/configuration/single/import
 
   echo "Trying to Adding Rest export display to front page"
@@ -131,6 +133,8 @@ if [ "$1" == "views" ]; then
   drush $DRUSH_ALIAS cache-rebuild
 
   drush $DRUSH_ALIAS user-login admin admin/structure/views/view/frontpage_rest
+  echo "================================="
+  echo ""
   shift
 fi
 
