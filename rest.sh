@@ -262,9 +262,9 @@ for entity in "nodes" "node" "comment" "user" "file" ; do
     curl \
       --user $CURL_USER \
       --header "$ACCEPT_HEADER" \
-      --header "Accept-Language: $LANG" \
-      --header "Content-Language: $LANG" \
       --request GET $URL/$RESOURCE > $FILE_NAME
+    #  --header "Accept-Language: $LANG" \
+    #  --header "Content-Language: $LANG" \
     set +x
     echo ============ RESPONSE : $RESOURCE ============
     cat $FILE_NAME | $JSON_PRETTY_PRINT
