@@ -81,13 +81,10 @@ fi
 
 ##  - install-modules   : Completely reinstall! contrib modules: devel rest_ui oauth
 if [ "$1" == "install-modules" ]; then
-  # install helpers
-  drush $DRUSH_ALIAS --yes dl $PACKAGE_HANDLER devel
-
-  # Make sure not to grab a version like 1.8
+  # install helpers and make sure to grab latest versions.
+  drush $DRUSH_ALIAS --yes dl $PACKAGE_HANDLER devel-1.x
   drush $DRUSH_ALIAS --yes dl $PACKAGE_HANDLER restui-1.x
-
-  drush $DRUSH_ALIAS --yes dl $PACKAGE_HANDLER oauth
+  drush $DRUSH_ALIAS --yes dl $PACKAGE_HANDLER oauth-1.x
 
   shift
 fi
@@ -95,16 +92,13 @@ fi
 ##  - enable-modules    : Enable contrib modules: devel rest_ui oauth
 if [ "$1" == "enable-modules" ]; then
 
-  # defaults according to /core/modules/rest/config/install
+  # defaults according to /core/modules/rest/config/install/rest.yml
   drush $DRUSH_ALIAS --yes pm-enable rest hal basic_auth
 
   # enable helpers
-  drush $DRUSH_ALIAS --yes pm-enable devel_generate
+  drush $DRUSH_ALIAS --yes pm-enable devel_generate simpletest restui oauth
 
-  drush $DRUSH_ALIAS --yes pm-enable simpletest
-
-  drush $DRUSH_ALIAS --yes pm-enable restui
-
+  drush $DRUSH_ALIAS pm-list --no-core --status=enabled
   shift
 fi
 
