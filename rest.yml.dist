@@ -6,24 +6,28 @@ resources:
         - json
       supported_auth:
         - basic_auth
+        - cookie
     POST:
       supported_formats:
         - hal_json
         - json
       supported_auth:
         - basic_auth
+        - cookie
     DELETE:
       supported_formats:
         - hal_json
         - json
       supported_auth:
         - basic_auth
+        - cookie
     PATCH:
       supported_formats:
         - hal_json
         - json
       supported_auth:
         - basic_auth
+        - cookie
 # https://www.drupal.org/node/2344151
   'entity:comment':
     GET:
@@ -32,24 +36,28 @@ resources:
         - json
       supported_auth:
         - basic_auth
+        - cookie
     POST:
       supported_formats:
         - hal_json
         - json
       supported_auth:
         - basic_auth
+        - cookie
     DELETE:
       supported_formats:
         - hal_json
         - json
       supported_auth:
         - basic_auth
+        - cookie
     PATCH:
       supported_formats:
         - hal_json
         - json
       supported_auth:
         - basic_auth
+        - cookie
   'entity:user':
     GET:
       supported_formats:
@@ -57,24 +65,28 @@ resources:
         - json
       supported_auth:
         - basic_auth
+        - cookie
     POST:
       supported_formats:
         - hal_json
         - json
       supported_auth:
         - basic_auth
+        - cookie
     DELETE:
       supported_formats:
         - hal_json
         - json
       supported_auth:
         - basic_auth
+        - cookie
     PATCH:
       supported_formats:
         - hal_json
         - json
       supported_auth:
         - basic_auth
+        - cookie
   'entity:file':
     GET:
       supported_formats:
@@ -82,24 +94,28 @@ resources:
         - json
       supported_auth:
         - basic_auth
+        - cookie
     POST:
       supported_formats:
         - hal_json
         - json
       supported_auth:
         - basic_auth
+        - cookie
     DELETE:
       supported_formats:
         - hal_json
         - json
       supported_auth:
         - basic_auth
+        - cookie
     PATCH:
       supported_formats:
         - hal_json
         - json
       supported_auth:
         - basic_auth
+        - cookie
 # Expose Config Entities (only get as other access seems political incorrect)
 'entity:taxonomy_term':
   GET:
@@ -108,6 +124,7 @@ resources:
       - json
     supported_auth:
       - basic_auth
+      - cookie
 'entity:menu':
   GET:
     supported_formats:
@@ -115,3 +132,4 @@ resources:
       - json
     supported_auth:
       - basic_auth
+      - cookie
