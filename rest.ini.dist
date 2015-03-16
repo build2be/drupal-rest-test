@@ -1,6 +1,6 @@
 # Drupal 8 drush alias
 DRUSH_ALIAS="@drupal.d8"
-# DRUSH_ALIAS="--url=http://drupal.d8 --root=path-to-drupal-8"
+# DRUSH_ALIAS="--uri=http://drupal.d8 --root=path-to-drupal-8"
 
 # Uncomment when needing verbose info into
 # DRUSH_ALIAS="$DRUSH_ALIAS --verbose"
