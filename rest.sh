@@ -96,7 +96,11 @@ if [ "$1" == "enable-modules" ]; then
   drush $DRUSH_ALIAS --yes pm-enable rest hal basic_auth
 
   # enable helpers
-  drush $DRUSH_ALIAS --yes pm-enable devel_generate simpletest restui oauth
+  drush $DRUSH_ALIAS --yes pm-enable devel_generate simpletest restui
+
+  # This may fail due to PECL and drush does not enable others on same command
+  # https://github.com/drush-ops/drush/pull/1331
+  drush $DRUSH_ALIAS --yes pm-enable oauth
 
   drush $DRUSH_ALIAS pm-list --no-core --status=enabled
   shift
