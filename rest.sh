@@ -221,8 +221,7 @@ fi
 
 ##  - anon              : Swith to anonymous user which may not view profile
 if [ "$1" == "anon" ]; then
-  CURL_USERNAME="anonymous"
-  CURL_PASSWORD=""
+  CURL_USER="anonymous:"
   shift
 fi
 
