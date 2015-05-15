@@ -172,11 +172,11 @@ if [ "$1" == "perms" ]; then
   echo "--------------------------------------"
   echo "Setting permissions"
 
-  for role in "anonymous" "administrator"; do
+  for role in "anonymous" "authenticated" "administrator"; do
 
     ROLES="create article content,edit any article content,delete any article content"
 
-    for entity in "node" "comment" "user" "taxonomy_term" ; do
+    for entity in "node" "comment" "user" "taxonomy_term" "file" ; do
       ROLES="$ROLES,restful get entity:$entity,restful post entity:$entity,restful delete entity:$entity,restful patch entity:$entity"
     done
     drush $DRUSH_ALIAS --notify role-add-perm $role "$ROLES"
