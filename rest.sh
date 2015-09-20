@@ -13,6 +13,8 @@ source ./rest.ini
 
 HAL_HEADER="Accept: application/hal+json"
 JSON_HEADER="Accept: application/json"
+HAL_FORMAT="hal_json"
+JSON_FORMAT="json"
 
 # defaults according to /core/modules/rest/config/install
 ACCEPT_HEADER=$HAL_HEADER
@@ -152,11 +154,13 @@ if [ "$1" == "rest-resources" ]; then
 fi
 
 MODULE_NAME="hal"
+_FORMAT=$HAL_FORMAT
 
 ##  - rest              : Set Accept-header to json.
 if [ "$1" == "rest" ]; then
   ACCEPT_HEADER=$JSON_HEADER
   MODULE_NAME="rest"
+  _FORMAT=$JSON_FORMAT
   shift
 fi
 
@@ -164,6 +168,7 @@ fi
 if [ "$1" == "hal" ]; then
   ACCEPT_HEADER=$HAL_HEADER
   MODULE_NAME="hal"
+  _FORMAT=$HAL_FORMAT
   shift
 fi
 
@@ -250,7 +255,7 @@ for entity in "nodes" "node" "comment" "user" "file" ; do
     curl \
       --user $CURL_USER \
       --header "$ACCEPT_HEADER" \
-      --request GET $URL/$RESOURCE > $FILE_NAME
+      --request GET $URL/$RESOURCE?_format=$_FORMAT > $FILE_NAME
     #  --header "Accept-Language: $LANG" \
     #  --header "Content-Language: $LANG" \
     set +x
